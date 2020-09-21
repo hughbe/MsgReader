@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CompoundFileReader",
+        "repositoryURL": "https://github.com/hughbe/CompoundFileReader",
+        "state": {
+          "branch": null,
+          "revision": "f881ee5201229320dd9830f36d3c4f9d6bf52acc",
+          "version": "1.0.5"
+        }
+      },
+      {
+        "package": "CompressedRtf",
+        "repositoryURL": "https://github.com/hughbe/CompressedRtf",
+        "state": {
+          "branch": null,
+          "revision": "39c387bb76e0114da2a3713e8768d9c76275d9ef",
+          "version": "1.0.2"
+        }
+      },
+      {
+        "package": "DataStream",
+        "repositoryURL": "https://github.com/hughbe/DataStream",
+        "state": {
+          "branch": null,
+          "revision": "ce50134f1a5af2df15c239924a0c08bda9781551",
+          "version": "1.1.4"
+        }
+      },
+      {
+        "package": "WindowsDataTypes",
+        "repositoryURL": "https://github.com/hughbe/WindowsDataTypes",
+        "state": {
+          "branch": null,
+          "revision": "34a71f12cbd708b862d944157bcd2d257f2a7ec4",
+          "version": "1.0.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
