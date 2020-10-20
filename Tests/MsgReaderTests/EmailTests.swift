@@ -4,8 +4,8 @@ import MAPI
 @testable import MsgReader
 
 final class EmailTests: XCTestCase {
-    func testReadMattGWalker1() throws {
-        let data = try getData(name: "mattgwwalker.msg-extractor/unicode")
+    func testReadTeamMsgExtractor1() throws {
+        let data = try getData(name: "TeamMsgExtractor/msg-extractor/unicode")
         let msg = try MsgFile(data: data)
         XCTAssertEqual("SMTP", msg.sentRepresentingAddressType!)
         XCTAssertEqual("brianzhou@me.com", msg.receivedRepresentingEmailAddress!)
@@ -154,8 +154,8 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual("raisedva.tif", msg.attachments[1].attachFilename!)
     }
 
-    func testReadMattGWalker2() throws {
-        let data = try getData(name: "mattgwwalker.msg-extractor/strangeDate")
+    func testReadTeamMsgExtractor2() throws {
+        let data = try getData(name: "TeamMsgExtractor/msg-extractor/strangeDate")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(4294967295, msg.iconIndex!)
@@ -243,7 +243,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid1() throws {
-        let data = try getData(name: "vikramarsid.msg_parser/complete")
+        let data = try getData(name: "vikramarsid/msg_parser/complete")
         let msg = try MsgFile(data: data)
 
         XCTAssertTrue(msg.readReceiptRequested!)
@@ -574,7 +574,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid2() throws {
-        let data = try getData(name: "vikramarsid.msg_parser/other")
+        let data = try getData(name: "vikramarsid/msg_parser/other")
         let msg = try MsgFile(data: data)
     
         XCTAssertEqual("Mail Delivery Subsystem", msg.sentRepresentingName!)
@@ -607,7 +607,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual("IPM.Note", msg.messageClass!)
         XCTAssertEqual(936, msg.messageCodepage!)
         XCTAssertEqual("SMTP", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
-        XCTAssertEqual(0, (msg.getProperty(id: .creatorFlag) as UInt32?)!)
+        XCTAssertEqual(0, (msg.getProperty(id: .PR_CREATOR_FLAG) as UInt32?)!)
         XCTAssertEqual("", msg.displayBcc!)
         XCTAssertEqual("true", (msg.getProperty(set: .internetHeaders, name: "x-ironport-anti-spam-filtered") as String?)!)
         XCTAssertEqual("投递状态通知 (Failure Notice)", msg.normalizedSubject!)
@@ -636,7 +636,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "53704B2C-00D2-264E-8BBC-6ED71B54C94E"), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertTrue(msg.rtfInSync!)
-        XCTAssertEqual(0, (msg.getProperty(id: .modifierFlag) as UInt32?)!)
+        XCTAssertEqual(0, (msg.getProperty(id: .PR_MODIFIER_FLAG) as UInt32?)!)
         XCTAssertEqual("/O=MGC/OU=MGC-NA/CN=AMERICAS/CN=MOBILE/CN=CHERGENR", (msg.getProperty(id: .unknown0x4025) as String?)!)
         XCTAssertEqual("mailer-daemon@tjdpf.org.cn", msg.senderEmailAddress!)
         XCTAssertEqual("SMTP", msg.sentRepresentingAddressType!)
@@ -729,7 +729,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid3() throws {
-        let data = try getData(name: "vikramarsid.msg_parser/outer")
+        let data = try getData(name: "vikramarsid/msg_parser/outer")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("", msg.displayBcc!)
@@ -839,7 +839,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat1() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/attachments")
+        let data = try getData(name: "TheConfusedCat/msgparser/attachments")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("", msg.displayBcc!)
@@ -953,7 +953,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat2() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/embedded image")
+        let data = try getData(name: "TheConfusedCat/msgparser/embedded image")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual("mpaliarik@mdlz.com", (msg.getProperty(id: .tagSendingSmtpAddress) as String?)!)
@@ -1152,7 +1152,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat3() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/forward with attachments and embedded images")
+        let data = try getData(name: "TheConfusedCat/msgparser/forward with attachments and embedded images")
         let msg = try MsgFile(data: data)
         
         XCTAssertFalse(msg.deleteAfterSubmit!)
@@ -1328,7 +1328,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat4() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/HTML mail with replyto and attachment and embedded image")
+        let data = try getData(name: "TheConfusedCat/msgparser/HTML mail with replyto and attachment and embedded image")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("b.bottema@projectnibble.org", msg.sentRepresentingSmtpAddress!)
@@ -1575,7 +1575,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat5() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/nested simple mail")
+        let data = try getData(name: "TheConfusedCat/msgparser/nested simple mail")
         let msg = try MsgFile(data: data)
 
         XCTAssertFalse(msg.originatorDeliveryReportRequested!)
@@ -1807,7 +1807,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat6() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/plain chain")
+        let data = try getData(name: "TheConfusedCat/msgparser/plain chain")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(.notAssigned, msg.taskState!)
@@ -1985,7 +1985,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat7() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/simple sent")
+        let data = try getData(name: "TheConfusedCat/msgparser/simple sent")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual("BitDaddys Software", msg.conversationTopic!)
@@ -2062,7 +2062,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat8() throws {
-        let data = try getData(name: "TheConfusedCat.msgparser/unsent draft")
+        let data = try getData(name: "TheConfusedCat/msgparser/unsent draft")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(.normal, msg.sensitivity!)
@@ -2150,7 +2150,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19771() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/EmailWith2Attachments")
+        let data = try getData(name: "Sicos1977/MSGReader/EmailWith2Attachments")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(9, (msg.getProperty(id: .unknown0x3666) as UInt32?)!)
@@ -2248,7 +2248,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual("[145.219.16.11]", (msg.getProperty(set: .internetHeaders, name: "x-originating-ip") as String?)!)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x4C, 0x41, 0x42, 0x53, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x46, 0x44, 0x38, 0x32, 0x45, 0x34, 0x41, 0x32, 0x41, 0x30, 0x41, 0x38, 0x34, 0x38, 0x34, 0x44, 0x38, 0x39, 0x46, 0x35, 0x41, 0x33, 0x46, 0x43, 0x42, 0x32, 0x30, 0x44, 0x38, 0x37, 0x44, 0x32, 0x2D, 0x4B, 0x45, 0x45, 0x53, 0x20, 0x56, 0x41, 0x4E, 0x20, 0x53, 0x50, 0x00], [UInt8](msg.sentRepresentingSearchKey!))
         XCTAssertTrue(msg.alternateRecipientAllowed!)
-        XCTAssertEqual(0, (msg.getProperty(id: .modifierFlag) as UInt32?)!)
+        XCTAssertEqual(0, (msg.getProperty(id: .PR_MODIFIER_FLAG) as UInt32?)!)
         XCTAssertEqual("E-mail with 2 attachments", msg.conversationTopic!)
         XCTAssertEqual(1575276261.0, (msg.getProperty(id: .unknown0x0F0A) as Date?)!.timeIntervalSince1970)
         XCTAssertEqual("kees.van.spelde@achmea.nl", (msg.getProperty(id: .tagSenderSmtpAddress) as String?)!)
@@ -2456,7 +2456,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19772() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/EmailWithAttachments")
+        let data = try getData(name: "Sicos1977/MSGReader/EmailWithAttachments")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(.message, msg.objectType!)
@@ -2581,7 +2581,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19773() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/HtmlSampleEmail")
+        let data = try getData(name: "Sicos1977/MSGReader/HtmlSampleEmail")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", msg.sentRepresentingEmailAddress!)
@@ -2752,7 +2752,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19774() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/HtmlSampleEmailWithAttachment")
+        let data = try getData(name: "Sicos1977/MSGReader/HtmlSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
         
         XCTAssertFalse(msg.agingDontAgeMe!)
@@ -2951,7 +2951,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19775() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/RtfSampleEmail")
+        let data = try getData(name: "Sicos1977/MSGReader/RtfSampleEmail")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual([.read], msg.access)
@@ -3122,7 +3122,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19776() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/RtfSampleEmailWithAttachment")
+        let data = try getData(name: "Sicos1977/MSGReader/RtfSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
         
         XCTAssertTrue(msg.hasAttachments!)
@@ -3321,7 +3321,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19777() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/TxtSampleEmail")
+        let data = try getData(name: "Sicos1977/MSGReader/TxtSampleEmail")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual("EX", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
@@ -3491,7 +3491,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19778() throws {
-        let data = try getData(name: "Sicos1977.MSGReader/TxtSampleEmailWithAttachment")
+        let data = try getData(name: "Sicos1977/MSGReader/TxtSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(1508749524.0, msg.messageDeliveryTime!.timeIntervalSince1970)
@@ -5623,7 +5623,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(.normal, msg.priority!)
         XCTAssertEqual(0, msg.reminderDelta!)
         XCTAssertEqual("Company", msg.companyName!)
-        XCTAssertEqual([0x00000003], msg.addressBookProviderEmailList!)
+        XCTAssertEqual([.businessFaxDefined], msg.addressBookProviderEmailList!)
         XCTAssertEqual("", msg.fax3OriginalDisplayName!)
         XCTAssertEqual([0x00008080, 0x00008090, 0x000080A0], (msg.getProperty(set: .address, lid: 0x00008027) as [UInt32]?)!)
         XCTAssertEqual("", msg.fax1OriginalDisplayName!)
@@ -6495,7 +6495,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual("pstreadertests@outlook.com", msg.receivedRepresentingSmtpAddress!)
         XCTAssertEqual("hughbellars@gmail.com", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertFalse((msg.getProperty(set: .messaging, name: "IsReadReceipt") as Bool?)!)
-        XCTAssertEqual(0, (msg.getProperty(id: .modifierFlag) as UInt32?)!)
+        XCTAssertEqual(0, (msg.getProperty(id: .PR_MODIFIER_FLAG) as UInt32?)!)
         XCTAssertEqual("'Hugh Bellamy'\u{00}", msg.displayTo!)
         XCTAssertEqual("EX", (msg.getProperty(id: .unknown0x4024) as String?)!)
         XCTAssertEqual(32, (msg.getProperty(set: .common, name: "ExchangeApplicationFlags") as UInt32?)!)
@@ -6660,8 +6660,8 @@ final class EmailTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testReadMattGWalker1", testReadMattGWalker1),
-        ("testReadMattGWalker2", testReadMattGWalker2),
+        ("testReadTeamMsgExtractor1", testReadTeamMsgExtractor1),
+        ("testReadTeamMsgExtractor2", testReadTeamMsgExtractor2),
         ("testReadVikramarsid1", testReadVikramarsid1),
         ("testReadVikramarsid2", testReadVikramarsid2),
         ("testReadVikramarsid3", testReadVikramarsid3),
