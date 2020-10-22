@@ -3854,7 +3854,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine1() throws {
-        let data = try getData(name: "Mine/MVP")
+        let data = try getData(name: "hughbe/MVP")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual("mvpga@microsoft.com", msg.senderEmailAddress!)
@@ -3971,7 +3971,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine2() throws {
-        let data = try getData(name: "Mine/custom")
+        let data = try getData(name: "hughbe/custom")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(.urgent, msg.priority!)
@@ -4631,7 +4631,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine3() throws {
-        let data = try getData(name: "Mine/FlaggedMessage")
+        let data = try getData(name: "hughbe/FlaggedMessage")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual([.openForContextMenu], msg.sideEffects)
@@ -5294,7 +5294,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine4() throws {
-        let data = try getData(name: "Mine/custom3")
+        let data = try getData(name: "hughbe/custom3")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(0, msg.reminderDelta!)
@@ -5454,7 +5454,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine5() throws {
-        let data = try getData(name: "Mine/contact")
+        let data = try getData(name: "hughbe/contact")
         let msg = try MsgFile(data: data)
      
         XCTAssertEqual("F.N.M.N.L.N.", msg.initials!)
@@ -5655,7 +5655,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine6() throws {
-        let data = try getData(name: "Mine/event")
+        let data = try getData(name: "hughbe/event")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(1595840668.0, msg.creationTime!.timeIntervalSince1970)
@@ -5913,7 +5913,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine7() throws {
-        let data = try getData(name: "Mine/discussion")
+        let data = try getData(name: "hughbe/discussion")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(20127, msg.internetCodepage!)
@@ -5995,7 +5995,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine8() throws {
-        let data = try getData(name: "Mine/multiple")
+        let data = try getData(name: "hughbe/multiple")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
@@ -6126,7 +6126,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine9() throws {
-        let data = try getData(name: "Mine/task")
+        let data = try getData(name: "hughbe/task")
         let msg = try MsgFile(data: data)
         
         XCTAssertEqual([0x53, 0x4D, 0x54, 0x50, 0x3A, 0x48, 0x55, 0x47, 0x48, 0x42, 0x45, 0x4C, 0x4C, 0x41, 0x52, 0x53, 0x40, 0x47, 0x4D, 0x41, 0x49, 0x4C, 0x2E, 0x43, 0x4F, 0x4D, 0x00], [UInt8](msg.sentRepresentingSearchKey!))
@@ -6280,7 +6280,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine10() throws {
-        let data = try getData(name: "Mine/SimpleMessage")
+        let data = try getData(name: "hughbe/SimpleMessage")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Subject", msg.conversationTopic!)
@@ -6401,7 +6401,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine11() throws {
-        let data = try getData(name: "Mine/Sample")
+        let data = try getData(name: "hughbe/Sample")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Hugh Bellamy", msg.lastModifierName!)
