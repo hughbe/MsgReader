@@ -14,8 +14,27 @@ public func getData(name: String) throws -> Data {
     return try Data(contentsOf: url)
 }
 
+public func testDumpEmbeddedMessage(accessor: String, message: EmbeddedMessage) {
+    var s = ""
+    
+    s += propertiesTestString(accessor: accessor, properties: message.properties.getAllProperties(), namedProperties: message.namedProperties?.properties)
+
+    s += "XCTAssertEqual(\(message.recipients.count), \(accessor).recipients.count)\n"
+    for (offset, recipient) in message.recipients.enumerated() {
+        s += propertiesTestString(accessor: "\(accessor).recipients[\(offset)]", properties: recipient.properties.getAllProperties(), namedProperties: message.namedProperties?.properties)
+    }
+
+    s += "XCTAssertEqual(\(message.attachments.count), \(accessor).attachments.count)\n"
+    for (offset, attachment) in message.attachments.enumerated() {
+        s += propertiesTestString(accessor: "\(accessor).attachments[\(offset)]", properties: attachment.properties.getAllProperties(), namedProperties: message.namedProperties?.properties)
+    }
+
+    print(s.trimmingCharacters(in: CharacterSet.newlines))
+}
+
 public func testDump(message: MsgFile) {
     var s = ""
+    
     s += propertiesTestString(accessor: "msg", properties: message.properties.getAllProperties(), namedProperties: message.namedProperties?.properties)
 
     s += "XCTAssertEqual(\(message.recipients.count), msg.recipients.count)\n"

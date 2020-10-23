@@ -15,14 +15,14 @@ import DataStream
 internal struct AttachmentOrRecipientPropertiesHeader: PropertiesHeader, CustomDebugStringConvertible {
     public let reserved: UInt64
     
-    init(dataStream: inout DataStream) throws {
+    public init(dataStream: inout DataStream) throws {
         /// Reserved (8 bytes): This field MUST be set to zero when writing a .msg file and MUST be ignored when reading a .msg file.
-        reserved = try dataStream.read(endianess: .littleEndian)
+        self.reserved = try dataStream.read(endianess: .littleEndian)
     }
     
-    var debugDescription: String {
+    public var debugDescription: String {
         var s = "-- Attachment Recipient Properties Header --\n"
-        s += "Reserved: \(reserved.hexString)\n"
+        s += "- Reserved: \(reserved.hexString)\n"
         return s
     }
 }

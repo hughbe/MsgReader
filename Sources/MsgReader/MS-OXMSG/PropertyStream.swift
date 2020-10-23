@@ -33,16 +33,16 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         
         var dataStream = propertiesEntry.dataStream
 
-        // [MS-OXMSG] 2.4.1 Header
-        // The header of the property stream differs depending on which storage this property stream belongs to.
+        /// [MS-OXMSG] 2.4.1 Header
+        /// The header of the property stream differs depending on which storage this property stream belongs to.
         self.header = try T(dataStream: &dataStream)
         
-        // [MS-OXMSG] 2.4.2 Data
-        // The data inside the property stream MUST be an array of 16-byte entries. The number of properties,
-        // each represented by one entry, can be determined by first measuring the size of the property stream,
-        // then subtracting the size of the header from it, and then dividing the result by the size of one entry.
-        // The structure of each entry, representing one property, depends on whether the property is a fixed
-        // length property or not.
+        /// [MS-OXMSG] 2.4.2 Data
+        /// The data inside the property stream MUST be an array of 16-byte entries. The number of properties,
+        /// each represented by one entry, can be determined by first measuring the size of the property stream,
+        /// then subtracting the size of the header from it, and then dividing the result by the size of one entry.
+        /// The structure of each entry, representing one property, depends on whether the property is a fixed
+        /// length property or not.
         let numberOfStreams = dataStream.remainingCount / 16
         for _ in 0..<numberOfStreams {
             let value = try PropertyEntry(dataStream: &dataStream)
@@ -65,37 +65,37 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             }
         }
         
-        // [MS-OXMSG] 2.1.3 Variable Length Properties
-        // A variable length property, within the context of this document, is defined as one where each instance
-        // of the property can have a value of a different size. Such properties are specified along with their
-        // lengths or have alternate mechanisms (such as terminating null characters) for determining their size.
-        // Following is an exhaustive list of property types that are either variable length or stored in a stream
-        // like variable length property types. These property types are specified in [MS-OXCDATA] section 2.11.1.
-        //  PtypString
-        //  PtypBinary
-        //  PtypString8
-        //  PtypGuid
-        //  PtypObject
-        // Each variable length property has an entry in the property stream. However, the entry contains only
-        // the property tag, a flag providing more information about the property, the size, and a reserved
-        // field. The entry does not contain the variable length property's value. Since the value can be variable
-        // in length, it is stored in an individual stream by itself. Properties of type PtypGuid do not have
-        // variable length values (they are always 16 bytes long). However, like variable length properties, they
-        // are stored in a stream by themselves in the .msg file because the values have a large size. Therefore,
-        // they are grouped along with variable length properties.
-        // The name of the stream where the value of a particular variable length property is stored is
-        // determined by its property tag. The stream name is created by prefixing a string containing the
-        // hexadecimal representation of the property tag with the string "__substg1.0_". For example, if the
-        // property is PidTagSubject ([MS-OXPROPS] section 2.1027), the name of the stream is
-        // "__substg1.0_0037001F", where "0037001F" is the hexadecimal representation of the property tag for
-        // PidTagSubject.
-        // If the PidTagStoreSupportMask property (section 2.1.1.1) is present and has the
-        // STORE_UNICODE_OK (bitmask 0x00040000) flag set, all string properties in the .msg file MUST be
-        // present in Unicode format. If the PidTagStoreSupportMask is not available in the property stream
-        // or if the STORE_UNICODE_OK flag is not set, the .msg file is considered to be non-Unicode and all
-        // string properties in the file MUST be in non-Unicode format.
-        // All string properties for a Message object MUST be either Unicode or non-Unicode. The .msg File
-        // Format does not allow the presence of both simultaneously.
+        /// [MS-OXMSG] 2.1.3 Variable Length Properties
+        /// A variable length property, within the context of this document, is defined as one where each instance
+        /// of the property can have a value of a different size. Such properties are specified along with their
+        /// lengths or have alternate mechanisms (such as terminating null characters) for determining their size.
+        /// Following is an exhaustive list of property types that are either variable length or stored in a stream
+        /// like variable length property types. These property types are specified in [MS-OXCDATA] section 2.11.1.
+        ///  PtypString
+        ///  PtypBinary
+        ///  PtypString8
+        ///  PtypGuid
+        ///  PtypObject
+        /// Each variable length property has an entry in the property stream. However, the entry contains only
+        /// the property tag, a flag providing more information about the property, the size, and a reserved
+        /// field. The entry does not contain the variable length property's value. Since the value can be variable
+        /// in length, it is stored in an individual stream by itself. Properties of type PtypGuid do not have
+        /// variable length values (they are always 16 bytes long). However, like variable length properties, they
+        /// are stored in a stream by themselves in the .msg file because the values have a large size. Therefore,
+        /// they are grouped along with variable length properties.
+        /// The name of the stream where the value of a particular variable length property is stored is
+        /// determined by its property tag. The stream name is created by prefixing a string containing the
+        /// hexadecimal representation of the property tag with the string "__substg1.0_". For example, if the
+        /// property is PidTagSubject ([MS-OXPROPS] section 2.1027), the name of the stream is
+        /// "__substg1.0_0037001F", where "0037001F" is the hexadecimal representation of the property tag for
+        /// PidTagSubject.
+        /// If the PidTagStoreSupportMask property (section 2.1.1.1) is present and has the
+        /// STORE_UNICODE_OK (bitmask 0x00040000) flag set, all string properties in the .msg file MUST be
+        /// present in Unicode format. If the PidTagStoreSupportMask is not available in the property stream
+        /// or if the STORE_UNICODE_OK flag is not set, the .msg file is considered to be non-Unicode and all
+        /// string properties in the file MUST be in non-Unicode format.
+        /// All string properties for a Message object MUST be either Unicode or non-Unicode. The .msg File
+        /// Format does not allow the presence of both simultaneously.
         func getStorageName(id: UInt16, type: PropertyType) -> String {
             let idHex = (String(id, radix: 16, uppercase: true).padLeft(toLength: 4, withPad: "0"))
             let dataTypeHex = (String(type.rawValue, radix: 16, uppercase: true).padLeft(toLength: 4, withPad: "0"))

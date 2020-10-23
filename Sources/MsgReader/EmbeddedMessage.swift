@@ -1,35 +1,23 @@
 //
-//  MsgFile.swift
+//  EmbeddedMesssage.swift
+//  
 //
-//
-//  Created by Hugh Bellamy on 21/07/2020.
-//
+//  Created by Hugh Bellamy on 23/10/2020.
 //
 
 import CompoundFileReader
-import DataStream
-import Foundation
 import MAPI
 
-public struct MsgFile: MessageStorageInternal, CustomStringConvertible {
-    internal var properties: PropertyStream<TopLevelPropertiesHeader>
+public struct EmbeddedMessage: MessageStorageInternal, CustomStringConvertible {
+    internal var properties: PropertyStream<EmbeddedMessagePropertiesHeader>
     internal var namedProperties: NamedPropertyMapping?
-
+    
     public private(set) var recipients = [Recipient]()
     public private(set) var attachments = [Attachment]()
-    
-    public init(data: Data) throws {
-        let file = try CompoundFile(data: data)
-        try self.init(storage: file.rootStorage)
-    }
-    
-    public init(storage: CompoundFileStorage) throws {
-        properties = try PropertyStream(parent: storage)
-        
-        var storage = storage
-        if let namedPropertiesEntry = storage.children["__nameid_version1.0"] {
-            namedProperties = try? NamedPropertyMapping(storage: namedPropertiesEntry)
-        }
+
+    internal init(storage: inout CompoundFileStorage, namedProperties: NamedPropertyMapping?) throws {
+        self.properties = try PropertyStream(parent: storage)
+        self.namedProperties = namedProperties
         
         for child in storage.children {
             if child.key.hasPrefix("__recip_version1.0_") {
@@ -62,15 +50,6 @@ public struct MsgFile: MessageStorageInternal, CustomStringConvertible {
     
     public var description: String {
         let x = Dictionary(uniqueKeysWithValues: properties.values.map { ($0.key, try? properties.getValue(id: $0.key)) })
-        var s = propertiesString(properties: x, namedProperties: namedProperties?.properties)
-
-        for recipient in recipients {
-            s += "\(recipient)\n"
-        }
-        for attachment in attachments {
-            s += "\(attachment)\n"
-        }
-        
-        return s
+        return propertiesString(properties: x, namedProperties: namedProperties?.properties)
     }
 }

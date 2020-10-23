@@ -28,14 +28,14 @@ internal struct NamedPropertyMapping: CustomDebugStringConvertible {
         /// that have the same property set GUID, then the GUID is stored only once and all the named
         /// properties will refer to it by its index.
         guard let guidStream = storage.children["__substg1.0_00020102"] else {
-            throw OutlookMessageError.missingStream(name: "__substg1.0_00020102")
+            throw MsgReadError.missingStream(name: "__substg1.0_00020102")
         }
         
         var guidDataStream = guidStream.dataStream
         func getGuid(index: Int) throws -> UUID {
             let position = index * MemoryLayout<UUID>.size
             if position >= guidDataStream.count {
-                throw OutlookMessageError.corrupted
+                throw MsgReadError.corrupted
             }
 
             guidDataStream.position = position
@@ -51,7 +51,7 @@ internal struct NamedPropertyMapping: CustomDebugStringConvertible {
         /// terminating null character to the string after they read it from the stream, if one is required by the
         /// implementer's programming language.
         guard let stringStream = storage.children["__substg1.0_00040102"] else {
-            throw OutlookMessageError.missingStream(name: "__substg1.0_00040102")
+            throw MsgReadError.missingStream(name: "__substg1.0_00040102")
         }
 
         var stringDataStream = stringStream.dataStream
@@ -84,7 +84,7 @@ internal struct NamedPropertyMapping: CustomDebugStringConvertible {
         /// byte offset into the stream from where to start reading the corresponding storage.
         /// Each of the 8-byte entries has the following format:
         guard let entryStream = storage.children["__substg1.0_00030102"] else {
-            throw OutlookMessageError.missingStream(name: "__substg1.0_00030102")
+            throw MsgReadError.missingStream(name: "__substg1.0_00030102")
         }
 
         var entryDataStream = entryStream.dataStream

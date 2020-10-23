@@ -21,20 +21,17 @@ import MAPI
 ///  A .msg file can have a maximum of 2048 Recipient object storages.
 ///  There is exactly one property stream, and it contains entries for all properties of the Recipient object.
 ///  There is exactly one stream for each variable length property of the Recipient object, as specified in section 2.1.3.
-public struct MsgRecipient: MessageStorageInternal, CustomStringConvertible {
+public struct Recipient: MessageStorageInternal, CustomStringConvertible {
     internal var properties: PropertyStream<AttachmentOrRecipientPropertiesHeader>
-    internal var file: MsgFile
-    internal var namedProperties: NamedPropertyMapping? {
-        return file.namedProperties
-    }
+    internal var namedProperties: NamedPropertyMapping?
 
-    internal init(storage: CompoundFileStorage, file: MsgFile) throws {
+    internal init(storage: CompoundFileStorage, namedProperties: NamedPropertyMapping?) throws {
         self.properties = try PropertyStream(parent: storage)
-        self.file = file
+        self.namedProperties = namedProperties
     }
     
     public var description: String {
-        let x = Dictionary(uniqueKeysWithValues: properties.values.map { ($0.key, properties.getValue(id: $0.key)) })
+        let x = Dictionary(uniqueKeysWithValues: properties.values.map { ($0.key, try? properties.getValue(id: $0.key)) })
         return propertiesString(properties: x, namedProperties: namedProperties?.properties)
     }
 }

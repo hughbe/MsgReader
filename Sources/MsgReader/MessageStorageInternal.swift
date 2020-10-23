@@ -18,7 +18,7 @@ internal protocol MessageStorageInternal: MessageStorage {
 
 extension MessageStorageInternal {
     public func getProperty<T>(id: UInt16) -> T? {
-        return properties.getValue(id: id) as? T
+        return try? properties.getValue(id: id) as? T
     }
     
     public func getProperty<T>(name: NamedProperty) -> T? {

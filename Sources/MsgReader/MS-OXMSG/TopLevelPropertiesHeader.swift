@@ -22,39 +22,37 @@ internal struct TopLevelPropertiesHeader: PropertiesHeader, CustomDebugStringCon
     public let reserved2: UInt64
     
     public init(dataStream: inout DataStream) throws {
-        // Reserved (8 bytes): This field MUST be set to zero when writing a .msg file and MUST be ignored
-        // when reading a .msg
-        reserved1 = try dataStream.read(endianess: .littleEndian)
+        /// Reserved (8 bytes): This field MUST be set to zero when writing a .msg file and MUST be ignored when reading a .msg
+        self.reserved1 = try dataStream.read(endianess: .littleEndian)
 
-        // Next Recipient ID (4 bytes): The ID to use for naming the next Recipient object storage if one is
-        // created inside the .msg  The naming convention to be used is specified in section 2.2.1. If no
-        // Recipient object storages are contained in the .msg file, this field MUST be set to 0.
-        nextRecipientID = try dataStream.read(endianess: .littleEndian)
+        /// Next Recipient ID (4 bytes): The ID to use for naming the next Recipient object storage if one is created inside the .msg.
+        /// The naming convention to be used is specified in section 2.2.1. If no Recipient object storages are contained in the .msg file,
+        /// this field MUST be set to 0.
+        self.nextRecipientID = try dataStream.read(endianess: .littleEndian)
 
-        // Next Attachment ID (4 bytes): The ID to use for naming the next Attachment object storage if one
-        // is created inside the .msg file. The naming convention to be used is specified in section 2.2.2. If
-        // no Attachment object storages are contained in the .msg file, this field MUST be set to 0.
-        nextAttachmentID = try dataStream.read(endianess: .littleEndian)
+        /// Next Attachment ID (4 bytes): The ID to use for naming the next Attachment object storage if one is created inside the .msg file.
+        /// The naming convention to be used is specified in section 2.2.2. If no Attachment object storages are contained in the .msg file,
+        /// this field MUST be set to 0.
+        self.nextAttachmentID = try dataStream.read(endianess: .littleEndian)
 
-        // Recipient Count (4 bytes): The number of Recipient objects.
-        recipientCount = try dataStream.read(endianess: .littleEndian)
+        /// Recipient Count (4 bytes): The number of Recipient objects.
+        self.recipientCount = try dataStream.read(endianess: .littleEndian)
 
-        // Attachment Count (4 bytes): The number of Attachment objects.
-        attachmentCount = try dataStream.read(endianess: .littleEndian)
+        /// Attachment Count (4 bytes): The number of Attachment objects.
+        self.attachmentCount = try dataStream.read(endianess: .littleEndian)
 
-        // Reserved (8 bytes): This field MUST be set to 0 when writing a .msg file and MUST be ignored when
-        // reading a .msg file
-        reserved2 = try dataStream.read(endianess: .littleEndian)
+        /// Reserved (8 bytes): This field MUST be set to 0 when writing a .msg file and MUST be ignored when reading a .msg file
+        self.reserved2 = try dataStream.read(endianess: .littleEndian)
     }
     
-    var debugDescription: String {
+    public var debugDescription: String {
         var s = "-- TopLevelPropertiesHeader --\n"
-        s += "Reserved1: \(reserved1.hexString)\n"
-        s += "Next Recipient ID: \(nextRecipientID.hexString)\n"
-        s += "Next Attachment ID: \(nextAttachmentID.hexString)\n"
-        s += "Recipient Count: \(recipientCount.hexString)\n"
-        s += "Attachment Count: \(attachmentCount.hexString)\n"
-        s += "Reserved2: \(reserved2.hexString)\n"
+        s += "- Reserved1: \(reserved1.hexString)\n"
+        s += "- Next Recipient ID: \(nextRecipientID.hexString)\n"
+        s += "- Next Attachment ID: \(nextAttachmentID.hexString)\n"
+        s += "- Recipient Count: \(recipientCount.hexString)\n"
+        s += "- Attachment Count: \(attachmentCount.hexString)\n"
+        s += "- Reserved2: \(reserved2.hexString)\n"
         return s
     }
 }
