@@ -26,7 +26,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
     public init(parent: CompoundFileStorage) throws {
         var parent = parent
         guard let propertiesEntry = parent.children["__properties_version1.0"] else {
-            throw OutlookMessageError.missingStream(name: "__properties_version1.0")
+            throw MsgReadError.missingStream(name: "__properties_version1.0")
         }
     
         self.parent = parent
@@ -50,7 +50,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         }
     }
     
-    public func getValue(id: UInt16) -> Any? {
+    public func getValue(id: UInt16) throws -> Any? {
         guard let value = values[id] else {
             return nil
         }
@@ -102,11 +102,10 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             return "__substg1.0_\(idHex)\(dataTypeHex)"
         }
         
-        func getData(id: UInt16, type: PropertyType) -> Data? {
+        func getData(id: UInt16, type: PropertyType) throws -> Data {
             let storageName = getStorageName(id: id, type: type)
             guard let entry = parent.children[storageName] else {
-                print("Could not find entry \(storageName)")
-                return nil
+                throw MsgReadError.missingStream(name: storageName)
             }
             
             return entry.data
@@ -128,21 +127,17 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         /// PtypMultipleTime PtypTime
         /// PtypMultipleGuid PtypGuid
         /// PtypMultipleInteger64 PtypInteger64
-        /// The array of values of a fixed length multiple-valued property is stored in one stream. The name of
-        /// that stream is determined by the property's property tag. The stream name is created by prefixing a
-        /// string containing the hexadecimal representation of the property tag with the string "__substg1.0_".
-        /// For example, if the property is PidTagScheduleInfoMonthsBusy ([MS-OXPROPS] section 2.976),
-        /// the name of the stream is "__substg1.0_68531003", where "68531003" is the hexadecimal
-        /// representation of the property tag for PidTagScheduleInfoMonthsBusy.
-        /// The values associated with the fixed length multiple-valued property are stored in the stream
-        /// contiguously like an array.
-        func readFixedLengthMultiValuedProperty<T>(readFunc: (inout DataStream) throws -> T) throws -> [T]? {
-            guard let data = getData(id: id, type: type) else {
-                return nil
-            }
-
+        /// The array of values of a fixed length multiple-valued property is stored in one stream. The name of that stream is determined by
+        /// the property's property tag. The stream name is created by prefixing a string containing the hexadecimal representation of the
+        /// property tag with the string "__substg1.0_".
+        /// For example, if the property is PidTagScheduleInfoMonthsBusy ([MS-OXPROPS] section 2.976), the name of the stream is
+        /// "__substg1.0_68531003", where "68531003" is the hexadecimal representation of the property tag for PidTagScheduleInfoMonthsBusy.
+        /// The values associated with the fixed length multiple-valued property are stored in the stream contiguously like an array.
+        func readFixedLengthMultiValuedProperty<T>(size: Int = MemoryLayout<T>.size, readFunc: (inout DataStream) throws -> T) throws -> [T]? {
+            let data = try getData(id: id, type: type)
             var dataStream = DataStream(data: data)
-            let count = dataStream.count / MemoryLayout<T>.size
+
+            let count = dataStream.count / size
             var elements: [T] = []
             elements.reserveCapacity(count)
             for _ in 0..<count {
@@ -178,10 +173,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// the length stream specifies the size of the first value of the multiple-valued property; the second entry
             /// specifies the size of the second value, and so on. The format of length stream entries depends on the
             /// property's type. The following sections specify the format of one entry in the length stream.
-            guard let data = getData(id: id, type: type) else {
-                return nil
-            }
-            
+            let data = try getData(id: id, type: type)
             var dataStream = DataStream(data: data)
             
             /// [MS-OXMSG] 2.1.4.2.1.2 Length for PtypMultipleString8 or PtypMultipleString
@@ -220,9 +212,8 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
                 }
                 
                 var dataStream = entry.dataStream
-                if let value = try? readFunc(&dataStream, Int(lengths[index]) - 1) {
-                    values.append(value)
-                }
+                let value = try readFunc(&dataStream, Int(lengths[index]) - 1)
+                values.append(value)
             }
             
             return values
@@ -238,9 +229,9 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         case .integer32:
             return reinterpret_cast(to: UInt32.self)
         case .floating32:
-            return reinterpret_cast(to: Float32.self)
+            return reinterpret_cast(to: Float.self)
         case .floating64:
-            return reinterpret_cast(to: Float64.self)
+            return reinterpret_cast(to: Double.self)
         case .boolean:
             return (reinterpret_cast(to: UInt8.self) != 0)
         case .integer64:
@@ -249,28 +240,19 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             let ft = reinterpret_cast(to: FILETIME.self)
             return ft.date
         case .string8:
-            guard let data = getData(id: id, type: type) else {
-                return nil
-            }
-
+            let data = try getData(id: id, type: type)
             return String(bytes: data, encoding: .utf8)
         case .string:
-            guard let data = getData(id: id, type: type) else {
-                return nil
-            }
-
+            let data = try getData(id: id, type: type)
             return String(bytes: data, encoding: .utf16LittleEndian)
         case .binary:
-            return getData(id: id, type: type)
+            return try getData(id: id, type: type)
         case .guid:
-            guard let data = getData(id: id, type: type) else {
-                return nil
-            }
-            
+            let data = try getData(id: id, type: type)
             var dataStream = DataStream(data: data)
-            return try? dataStream.readGUID(endianess: .littleEndian)
+            return try dataStream.readGUID(endianess: .littleEndian)
         case .objectOrEmbeddedTable:
-            return getData(id: id, type: type)
+            return try getData(id: id, type: type)
         case .multipleString8:
             /// [MS-OXMSG] 2.1.4.2.1.2 Length for PtypMultipleString8 or PtypMultipleString
             /// Each entry in the length stream for a PtypMultipleString8 property or a PtypMultipleString
@@ -278,7 +260,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// Length (4 bytes): The length, in bytes, of the corresponding value of the PtypString8 property or
             /// the PtypString property ([MS-OXCDATA] section 2.11.1). The length includes the NULL
             /// terminating character.
-            return try? readVariableLengthMultiValuedProperty(
+            return try readVariableLengthMultiValuedProperty(
                 lengthFunc: { try $0.read(endianess: .littleEndian) as UInt32 },
                 readFunc: { try $0.readString(count: $1, encoding: .ascii)! })
         case .multipleString:
@@ -288,46 +270,48 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// Length (4 bytes): The length, in bytes, of the corresponding value of the PtypString8 property or
             /// the PtypString property ([MS-OXCDATA] section 2.11.1). The length includes the NULL
             /// terminating character.
-            return try? readVariableLengthMultiValuedProperty(
+            return try readVariableLengthMultiValuedProperty(
                 lengthFunc: { try $0.read(endianess: .littleEndian) as UInt32 },
                 readFunc: { try $0.readString(count: $1, encoding: .utf16LittleEndian)! })
         case .unknown:
             return nil
         case .currency:
-            return "TODO: Currency"
+            return Double(currency: reinterpret_cast(to: UInt64.self))
         case .floatingTime:
-            return "TODO: FloatingTime"
+            return Date(floatingTime: reinterpret_cast(to: Double.self))
         case .errorCode:
-            return "TODO: ErrorCode"
+            return reinterpret_cast(to: UInt32.self)
         case .serverId:
-            return "TODO: ServerId"
+            let data = try getData(id: id, type: type)
+            var dataStream = DataStream(data: data)
+            return try? ServerId(dataStream: &dataStream)
         case .restriction:
-            return "TODO: Restriction"
+            return nil
         case .ruleAction:
-            return "TODO: RuleAction"
+            return nil
         case .multipleInteger16:
-            return try? readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt16 }
+            return try readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt16 }
         case .multipleInteger32:
-            return try? readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt32 }
+            return try readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt32 }
         case .multipleFloating32:
-            return try? readFixedLengthMultiValuedProperty { try $0.readFloat(endianess: .littleEndian) }
+            return try readFixedLengthMultiValuedProperty { try $0.readFloat(endianess: .littleEndian) }
         case .multipleFloating64:
-            return try? readFixedLengthMultiValuedProperty { try $0.readFloat(endianess: .littleEndian) }
+            return try readFixedLengthMultiValuedProperty { try $0.readFloat(endianess: .littleEndian) }
         case .multipleCurrency:
-            return "TODO: MultipleCurrency"
+            return try readFixedLengthMultiValuedProperty(size: MemoryLayout<UInt64>.size) { Double(currency: try $0.read(endianess: .littleEndian)) }
         case .multipleFloatingTime:
-            return "TODO: MultipleFloatingTime"
+            return try readFixedLengthMultiValuedProperty(size: MemoryLayout<Double>.size) { Date(floatingTime: try $0.readDouble()) }
         case .multipleInteger64:
-            return try? readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt64 }
+            return try readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt64 }
         case .multipleTime:
-            return "TODO: MultipleTime"
+            return try readFixedLengthMultiValuedProperty(size: MemoryLayout<FILETIME>.size) { try FILETIME(dataStream: &$0).date }
         case .multipleGuid:
-            return try? readFixedLengthMultiValuedProperty { try $0.readGUID(endianess: .littleEndian) }
+            return try readFixedLengthMultiValuedProperty { try $0.readGUID(endianess: .littleEndian) }
         case .multipleBinary:
             /// [MS-OXMSG] 2.1.4.2.1.1 Length for PtypMultipleBinary
             /// Each entry in the length stream for a PtypMultipleBinary property ([MS-OXCDATA] section 2.11.1)
             /// has the following structure.
-            return try? readVariableLengthMultiValuedProperty(
+            return try readVariableLengthMultiValuedProperty(
                 lengthFunc: {
                     /// Length (4 bytes): The length, in bytes, of the corresponding value of the PtypBinary property
                     /// ([MS-OXCDATA] section 2.11.1).
@@ -348,7 +332,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         properties.reserveCapacity(values.count)
         
         for entry in values.sorted(by: { $0.key < $1.key }) {
-            properties[entry.key] = getValue(id: entry.key)
+            properties[entry.key] = try? getValue(id: entry.key)
         }
         
         return properties
@@ -365,7 +349,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             s += "___\n"
             s += "Tag: \(kvp.value.propertyTag)\n"
             
-            guard let any = getValue(id: kvp.key) else {
+            guard let any = try? getValue(id: kvp.key) else {
                 continue
             }
             s += "Value: \(any)\n\n"
