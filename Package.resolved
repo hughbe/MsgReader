@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/hughbe/CompoundFileReader",
         "state": {
           "branch": null,
-          "revision": "f881ee5201229320dd9830f36d3c4f9d6bf52acc",
-          "version": "1.0.5"
+          "revision": "2f1c9add12415c1832843c6669d10fdcdeb30d6c",
+          "version": "1.0.6"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/hughbe/DataStream",
         "state": {
           "branch": null,
-          "revision": "ce50134f1a5af2df15c239924a0c08bda9781551",
-          "version": "1.1.4"
+          "revision": "e7da621235b5a4db261f82a51a936947c5dcab0c",
+          "version": "1.2.0"
         }
       },
       {

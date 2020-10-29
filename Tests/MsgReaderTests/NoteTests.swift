@@ -5,7 +5,7 @@ import MAPI
 
 final class NoteTests: XCTestCase {
     public func testSimpleNote() throws {
-        let data = try getData(name: "Notes/Simple Note")
+        let data = try getData(name: "hughbe/Simple Note")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Note", msg.conversationTopic!)
@@ -49,11 +49,7 @@ final class NoteTests: XCTestCase {
         XCTAssertEqual(0, msg.reminderDelta!)
         XCTAssertEqual(1599906820.0, msg.lastModificationTime!.timeIntervalSince1970)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
-        XCTAssertEqual(0xD6, msg.conversationIndex!.header.currentFileTime.0)
-        XCTAssertEqual(0x63, msg.conversationIndex!.header.currentFileTime.1)
-        XCTAssertEqual(0xFC, msg.conversationIndex!.header.currentFileTime.2)
-        XCTAssertEqual(0xC0, msg.conversationIndex!.header.currentFileTime.3)
-        XCTAssertEqual(0xF9, msg.conversationIndex!.header.currentFileTime.4)
+        XCTAssertEqual(1378870058851.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
         XCTAssertEqual(UUID(uuidString: "985E10F3-923E-4952-9E23-44B976EE3A99"), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual([.read], msg.messageFlags)

@@ -161,7 +161,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         /// For each variable length multiple-valued property, if there are N values, there MUST be N + 1
         /// streams: N streams to store each individual value and one stream to store the lengths of all the
         /// individual values.
-        func readVariableLengthMultiValuedProperty<T>(lengthFunc: (inout DataStream) throws -> UInt32, readFunc: (inout DataStream, Int) throws-> T) throws -> [T]? {
+        func readVariableLengthMultiValuedProperty<T>(lengthLength: Int, lengthFunc: (inout DataStream) throws -> UInt32, readFunc: (inout DataStream, Int) throws-> T) throws -> [T]? {
             /// [MS-OXMSG] 2.1.4.2.1 Length Stream
             /// The name of the stream that stores the lengths of all values is derived by prefixing a string containing
             /// the hexadecimal representation of the property tag with the string "__substg1.0_". For example, if
@@ -179,7 +179,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// [MS-OXMSG] 2.1.4.2.1.2 Length for PtypMultipleString8 or PtypMultipleString
             /// Each entry in the length stream for a PtypMultipleString8 property or a PtypMultipleString
             /// property ([MS-OXCDATA] section 2.11.1) has the following structure.
-            let count = dataStream.count / 4
+            let count = dataStream.count / lengthLength
             var lengths = [UInt32]()
             lengths.reserveCapacity(count)
             for _ in 0..<count {
@@ -212,7 +212,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
                 }
                 
                 var dataStream = entry.dataStream
-                let value = try readFunc(&dataStream, Int(lengths[index]) - 1)
+                let value = try readFunc(&dataStream, Int(lengths[index]))
                 values.append(value)
             }
             
@@ -241,7 +241,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             return ft.date
         case .string8:
             let data = try getData(id: id, type: type)
-            return String(bytes: data, encoding: .utf8)
+            return String(bytes: data, encoding: .ascii)
         case .string:
             let data = try getData(id: id, type: type)
             return String(bytes: data, encoding: .utf16LittleEndian)
@@ -261,8 +261,13 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// the PtypString property ([MS-OXCDATA] section 2.11.1). The length includes the NULL
             /// terminating character.
             return try readVariableLengthMultiValuedProperty(
+                lengthLength: 4,
                 lengthFunc: { try $0.read(endianess: .littleEndian) as UInt32 },
-                readFunc: { try $0.readString(count: $1, encoding: .ascii)! })
+                readFunc: { (dataStream, count) -> String in
+                    let string = try dataStream.readString(count: count - 1, encoding: .ascii)!
+                    dataStream.position += 1
+                    return string
+                })
         case .multipleString:
             /// [MS-OXMSG] 2.1.4.2.1.2 Length for PtypMultipleString8 or PtypMultipleString
             /// Each entry in the length stream for a PtypMultipleString8 property or a PtypMultipleString
@@ -271,8 +276,13 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// the PtypString property ([MS-OXCDATA] section 2.11.1). The length includes the NULL
             /// terminating character.
             return try readVariableLengthMultiValuedProperty(
+                lengthLength: 4,
                 lengthFunc: { try $0.read(endianess: .littleEndian) as UInt32 },
-                readFunc: { try $0.readString(count: $1, encoding: .utf16LittleEndian)! })
+                readFunc: { (dataStream, count) -> String in
+                    let string = try dataStream.readString(count: count - 2, encoding: .utf16LittleEndian)!
+                    dataStream.position += 2
+                    return string
+                })
         case .unknown:
             return nil
         case .currency:
@@ -284,11 +294,25 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         case .serverId:
             let data = try getData(id: id, type: type)
             var dataStream = DataStream(data: data)
+            let _: UInt16 = try dataStream.read(endianess: .littleEndian)
             return try? ServerId(dataStream: &dataStream)
         case .restriction:
-            return nil
+            let data = try getData(id: id, type: type)
+            var dataStream = DataStream(data: data)
+            return try? Restriction(dataStream: &dataStream, standard: true)
         case .ruleAction:
-            return nil
+            let data = try getData(id: id, type: type)
+            var dataStream = DataStream(data: data)
+
+            let count: UInt16 = try dataStream.read(endianess: .littleEndian)
+            var results: [RuleAction] = []
+            results.reserveCapacity(Int(count))
+            for _ in 0..<count {
+                let result = try RuleAction(dataStream: &dataStream, standard: true)
+                results.append(result)
+            }
+            
+            return results
         case .multipleInteger16:
             return try readFixedLengthMultiValuedProperty { try $0.read(endianess: .littleEndian) as UInt16 }
         case .multipleInteger32:
@@ -312,6 +336,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// Each entry in the length stream for a PtypMultipleBinary property ([MS-OXCDATA] section 2.11.1)
             /// has the following structure.
             return try readVariableLengthMultiValuedProperty(
+                lengthLength: 8,
                 lengthFunc: {
                     /// Length (4 bytes): The length, in bytes, of the corresponding value of the PtypBinary property
                     /// ([MS-OXCDATA] section 2.11.1).

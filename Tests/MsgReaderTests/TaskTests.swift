@@ -5,7 +5,7 @@ import MAPI
 
 final class TaskTests: XCTestCase {
     public func testSimpleTask() throws {
-        let data = try getData(name: "Tasks/Simple Task")
+        let data = try getData(name: "hughbe/Simple Task")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(.normal, msg.priority!)
@@ -17,11 +17,7 @@ final class TaskTests: XCTestCase {
         XCTAssertFalse(msg.taskNoCompute!)
         XCTAssertEqual(.notAssigned, msg.taskOwnership!)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
-        XCTAssertEqual(0xD6, msg.conversationIndex!.header.currentFileTime.0)
-        XCTAssertEqual(0x85, msg.conversationIndex!.header.currentFileTime.1)
-        XCTAssertEqual(0x16, msg.conversationIndex!.header.currentFileTime.2)
-        XCTAssertEqual(0x53, msg.conversationIndex!.header.currentFileTime.3)
-        XCTAssertEqual(0x57, msg.conversationIndex!.header.currentFileTime.4)
+        XCTAssertEqual(588882389215.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
         XCTAssertEqual(UUID(uuidString: "F8D90074-0449-42EA-95E3-7D3592F9E6B8"), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual("", msg.displayTo!)

@@ -5,7 +5,7 @@ import MAPI
 
 final class JournalTests: XCTestCase {
     public func testSimpleJournalEntry() throws {
-        let data = try getData(name: "Journals/Journal Entry")
+        let data = try getData(name: "hughbe/Journal Entry")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Journal Entry", msg.subject!)
@@ -91,11 +91,7 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual([0x22, 0x1B, 0x46, 0x2F, 0xBA, 0xDC, 0x73, 0x46, 0xB6, 0xA5, 0xDF, 0x65, 0xA2, 0xF3, 0x8D, 0x6D], [UInt8](msg.searchKey!))
         XCTAssertFalse(msg.logDocumentPrinted!)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
-        XCTAssertEqual(0xD6, msg.conversationIndex!.header.currentFileTime.0)
-        XCTAssertEqual(0x85, msg.conversationIndex!.header.currentFileTime.1)
-        XCTAssertEqual(0xC6, msg.conversationIndex!.header.currentFileTime.2)
-        XCTAssertEqual(0xB5, msg.conversationIndex!.header.currentFileTime.3)
-        XCTAssertEqual(0x04, msg.conversationIndex!.header.currentFileTime.4)
+        XCTAssertEqual(1292710568480.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
         XCTAssertEqual(UUID(uuidString: "28B6E514-F981-40D9-88A9-9DFEAC93A40D"), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual("SMTP", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
