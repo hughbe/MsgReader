@@ -112,6 +112,7 @@ final class DumpFileTests: XCTestCase {
             "lolo101/MsgViewer/welcome_test",
             "lolo101/MsgViewer/welcome_test2",
             "lolo101/MsgViewer/welcome_test3",
+            "microsoft/compoundfilereader/a test email message",
             "mvz/email-outlook-message-perl/charset",
             "mvz/email-outlook-message-perl/gpg_signed",
             "mvz/email-outlook-message-perl/plain_jpeg_attached",
