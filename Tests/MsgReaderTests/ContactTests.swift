@@ -5,9 +5,10 @@ import MAPI
 
 final class ContactTests: XCTestCase {
     public func testSimpleContact() throws {
-        let data = try getData(name: "hughbe/Sample Contact")
+        /* hughbe */
+        let data = try getData(name: "Sample Contact")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("webaddress", msg.businessWebPageUrl!)
         XCTAssertTrue(msg.alternateRecipientAllowed!)
         XCTAssertEqual("Department", msg.departmentName!)
@@ -103,7 +104,7 @@ final class ContactTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("webaddress", msg.businessHomePage!)
         XCTAssertEqual("", msg.workAddressCountry!)
         XCTAssertEqual("", msg.fax2EmailAddress!)
@@ -139,7 +140,7 @@ final class ContactTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0x03, msg.businessCardDisplayDefinition!.majorVersion)
         XCTAssertEqual(0x00, msg.businessCardDisplayDefinition!.minorVersion)
         XCTAssertEqual(.imageTopAligned, msg.businessCardDisplayDefinition!.templateID)
@@ -299,9 +300,10 @@ final class ContactTests: XCTestCase {
     }
 
     public func testContactGroup() throws {
-        let data = try getData(name: "hughbe/Contact Group")
+        /* hughbe */
+        let data = try getData(name: "Contact Group")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("", (msg.getProperty(set: .address, lid: 0x0000800E) as String?)!)
         XCTAssertEqual([.read], msg.access)
         XCTAssertEqual("Contact Group", msg.distributionListName!)
@@ -340,7 +342,7 @@ final class ContactTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.normal, msg.priority!)
         XCTAssertEqual(4294967295, msg.fileUnderId!)
         XCTAssertEqual(3625595719, msg.distributionListChecksum!)
@@ -396,7 +398,7 @@ final class ContactTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("", msg.account!)
         XCTAssertEqual([0xA6, 0x34, 0x91, 0x68, 0x0B, 0xBA, 0x2C, 0x42, 0xAA, 0xFA, 0x1E, 0x92, 0x0A, 0x45, 0x5F, 0x04], [UInt8](msg.searchKey!))
         XCTAssertEqual([.openToDelete, .coerceToInbox, .openToMove], msg.sideEffects)

@@ -5,9 +5,10 @@ import MAPI
 
 final class AppointmentTests: XCTestCase {
     public func testSimpleAppointment() throws {
-        let data = try getData(name: "hughbe/Appointment")
+        /* hughbe */
+        let data = try getData(name: "Appointment")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(.none, msg.recurrenceType!)
         XCTAssertFalse(msg.appointmentNotAllowPropose!)
         XCTAssertEqual("", msg.organizerAlias!)
@@ -55,7 +56,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("pstreadertests@outlook.com", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertEqual("", msg.onlinePassword!)
         XCTAssertEqual("EX", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
@@ -145,7 +146,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([.read], msg.messageFlags)
         XCTAssertEqual([.unicodeOk, StoreSupportMask(rawValue: 0x00000E79)], msg.storeSupportMask)
         XCTAssertEqual(.undefined, msg.nativeBody!)
@@ -192,7 +193,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("pstreadertests@outlook.com", msg.recipients[0].smtpAddress!)
         XCTAssertEqual(.mailUser, msg.recipients[0].objectType!)
         XCTAssertEqual([0x00, 0x00, 0x39, 0x8B], [UInt8](msg.recipients[0].instanceKey!))
@@ -211,15 +212,16 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
 
         XCTAssertEqual(0, msg.attachments.count)
     }
 
     public func testRecurringAppointment() throws {
-        let data = try getData(name: "hughbe/Recurring Appointment")
+        /* hughbe */
+        let data = try getData(name: "Recurring Appointment")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertFalse(msg.`private`!)
         XCTAssertEqual(0x02, msg.appointmentTimeZoneDefinitionRecur!.majorVersion)
         XCTAssertEqual(0x01, msg.appointmentTimeZoneDefinitionRecur!.minorVersion)
@@ -259,7 +261,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Appointment Name", msg.conversationTopic!)
         XCTAssertFalse(msg.appointmentSubType!)
         XCTAssertEqual(1033, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
@@ -288,7 +290,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertFalse(msg.deleteAfterSubmit!)
         XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", msg.sentRepresentingEmailAddress!)
         XCTAssertEqual("", (msg.getProperty(set: .calendarAssistant, lid: 0x0000000C) as String?)!)
@@ -380,7 +382,7 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(2, msg.predecessorChangeList!.values.count)
         XCTAssertEqual(UUID(uuidString: "F711B14A-92C8-4094-9843-750BE6086BC4"), msg.predecessorChangeList!.values[0].namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x17, 0x4F, 0x7F, 0xCD], msg.predecessorChangeList!.values[0].localId)
@@ -927,19 +929,19 @@ final class AppointmentTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0x00000000, (msg.recipients[0].entryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=First Organization/ou=Exchange Administrative Group(FYDIBOHF23SPDLT)/cn=Recipients/cn=00037FFE34534C30", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0, msg.recipients[0].recipientOrder!)
         XCTAssertEqual(0, (msg.recipients[0].getProperty(id: .tagRecipientResourceState) as UInt32?)!)
 
         XCTAssertEqual(0, msg.attachments.count)
     }
 
-    
+
     static var allTests = [
         ("testRecurringAppointment", testRecurringAppointment)
     ]

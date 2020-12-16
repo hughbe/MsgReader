@@ -10,7 +10,7 @@ import MAPI
 @testable import MsgReader
 
 public func getData(name: String) throws -> Data {
-    let url = URL(forResource: name, withExtension: "msg")
+    let url = Bundle.module.url(forResource: name, withExtension: "msg")!
     return try Data(contentsOf: url)
 }
 

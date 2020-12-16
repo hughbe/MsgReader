@@ -5,7 +5,8 @@ import MAPI
 
 final class EmailTests: XCTestCase {
     func testReadTeamMsgExtractor1() throws {
-        let data = try getData(name: "TeamMsgExtractor/msg-extractor/unicode")
+        /* TeamMsgExtractor/msg-extractor */
+        let data = try getData(name: "msg-extractor_unicode")
         let msg = try MsgFile(data: data)
         XCTAssertEqual("SMTP", msg.sentRepresentingAddressType!)
         XCTAssertEqual("brianzhou@me.com", msg.receivedRepresentingEmailAddress!)
@@ -151,7 +152,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadTeamMsgExtractor2() throws {
-        let data = try getData(name: "TeamMsgExtractor/msg-extractor/strangeDate")
+        /* TeamMsgExtractor/msg-extractor */
+        let data = try getData(name: "strangeDate")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(4294967295, msg.iconIndex!)
@@ -235,7 +237,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid1() throws {
-        let data = try getData(name: "vikramarsid/msg_parser/complete")
+        /* vikramarsid/msg_parser */
+        let data = try getData(name: "complete")
         let msg = try MsgFile(data: data)
 
         XCTAssertTrue(msg.readReceiptRequested!)
@@ -366,7 +369,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(.attachment, msg.attachments[0].objectType!)
         XCTAssertEqual([], msg.attachments[0].attachFlags)
         XCTAssertEqual(1540837011.0, msg.attachments[0].creationTime!.timeIntervalSince1970)
-        
+
         XCTAssertEqual(.normal, msg.attachments[0].embeddedMessage!.sensitivity!)
         XCTAssertEqual(1540692102.0, msg.attachments[0].embeddedMessage!.clientSubmitTime!.timeIntervalSince1970)
         XCTAssertFalse(msg.attachments[0].embeddedMessage!.hasAttachments!)
@@ -626,9 +629,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid2() throws {
-        let data = try getData(name: "vikramarsid/msg_parser/other")
+        /* vikramarsid/msg_parser */
+        let data = try getData(name: "other")
         let msg = try MsgFile(data: data)
-    
+
         XCTAssertEqual("Mail Delivery Subsystem", msg.sentRepresentingName!)
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
@@ -672,7 +676,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MGC/OU=MGC-NA/CN=AMERICAS/CN=MOBILE/CN=CHERGENR\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MGC/OU=MGC-NA/CN=AMERICAS/CN=MOBILE/CN=CHERGENR", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("yosipnps@model.com\u{00}", msg.displayTo!)
         XCTAssertEqual(936, msg.internetCodepage!)
         XCTAssertEqual([0x01, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x15, 0x00, 0x00, 0x00, 0xB1, 0xF5, 0x70, 0xD2, 0xCA, 0x9B, 0x2E, 0xF6, 0xE1, 0x04, 0xBE, 0x43, 0x58, 0xDE, 0x00, 0x00], [UInt8]((msg.getProperty(id: .PR_CREATOR_SID) as Data?)!))
@@ -695,7 +699,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.creatorEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.creatorEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.creatorEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MGC/OU=MGC-NA/CN=AMERICAS/CN=MOBILE/CN=CHERGENR\u{00}", (msg.creatorEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MGC/OU=MGC-NA/CN=AMERICAS/CN=MOBILE/CN=CHERGENR", (msg.creatorEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("EX", (msg.getProperty(id: .unknown0x4024) as String?)!)
         XCTAssertNotNil(msg.rtfCompressed)
         XCTAssertEqual(1511800751.0, msg.lastModificationTime!.timeIntervalSince1970)
@@ -777,7 +781,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadVikramarsid3() throws {
-        let data = try getData(name: "vikramarsid/msg_parser/outer")
+        /* vikramarsid/msg_parser */
+        let data = try getData(name: "outer")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("", msg.displayBcc!)
@@ -883,7 +888,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat1() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/attachments")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "attachments")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("", msg.displayBcc!)
@@ -997,9 +1003,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat2() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/embedded image")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "embedded image")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("mpaliarik@mdlz.com", (msg.getProperty(id: .tagSendingSmtpAddress) as String?)!)
         XCTAssertEqual("<F702D40CB0325C44B4680D8A5A3C1B4904D32649@035-CH1MPN1-027.035d.mgd.msft.net>", (msg.getProperty(id: .tagInternetMessageId) as String?)!)
         XCTAssertNotNil(msg.tnefCorrelationKey)
@@ -1014,7 +1021,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertTrue(msg.alternateRecipientAllowed!)
         XCTAssertEqual("", msg.displayBcc!)
         XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", msg.receivedRepresentingEmailAddress!)
@@ -1022,7 +1029,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("EX", msg.receivedRepresentingAddressType!)
         XCTAssertTrue(msg.sendRichInfo!)
         XCTAssertEqual(1352826876.0, msg.lastModificationTime!.timeIntervalSince1970)
@@ -1033,7 +1040,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0, (msg.getProperty(id: .tagSenderFlags) as UInt32?)!)
         XCTAssertEqual("Paliarik, Martin", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertEqual(UUID(uuidString: "0CD402F7-32B0-445C-B468-0D8A5A3C1B49"), msg.changeKey!.namespaceGuid)
@@ -1058,7 +1065,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(1033, msg.messageLocaleId!)
         XCTAssertEqual("Paliarik, Martin", msg.receivedRepresentingName!)
         XCTAssertTrue(msg.hasAttachments!)
@@ -1115,7 +1122,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=PALIARIK, MARTINA46FAA27-6657-4824-90F8-229B7655DA885", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertFalse(msg.readReceiptRequested!)
         XCTAssertEqual(.readOnly, msg.accessLevel!)
         XCTAssertEqual([.unicodeOk, StoreSupportMask(rawValue: 0x00000E79)], msg.storeSupportMask)
@@ -1137,7 +1144,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=MMS/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Paliarik, Martina46faa27-6657-4824-90f8-229b7655da885\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=MMS/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Paliarik, Martina46faa27-6657-4824-90f8-229b7655da885", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0, (msg.recipients[0].getProperty(id: .PR_RECIPIENT_TRACKSTATUS_RESPONSE) as UInt32?)!)
         XCTAssertEqual(0, msg.recipients[0].recipientOrder!)
         XCTAssertEqual(" ", (msg.recipients[0].getProperty(id: .unknown0x5FE5) as String?)!)
@@ -1146,7 +1153,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Paliarik, Martina46faa27-6657-4824-90f8-229b7655da885\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=MMS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Paliarik, Martina46faa27-6657-4824-90f8-229b7655da885", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Paliarik, Martin", msg.recipients[0].recipientDisplayName!)
         XCTAssertEqual([0x00, 0x14, 0x7E, 0x6B], [UInt8](msg.recipients[0].instanceKey!))
         XCTAssertEqual([0xEE, 0xE3, 0xF2, 0x84, 0xC3, 0x2F, 0x67, 0x4A, 0x8A, 0x99, 0x39, 0x7F, 0x42, 0xFF, 0x21, 0xAF], [UInt8]((msg.recipients[0].getProperty(id: .tagAbProviders) as Data?)!))
@@ -1191,9 +1198,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat3() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/forward with attachments and embedded images")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "forward with attachments and embedded images")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertFalse(msg.deleteAfterSubmit!)
         XCTAssertEqual(.normal, msg.priority!)
         XCTAssertEqual(1488652243.0, msg.creationTime!.timeIntervalSince1970)
@@ -1366,7 +1374,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat4() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/HTML mail with replyto and attachment and embedded image")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "HTML mail with replyto and attachment and embedded image")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("b.bottema@projectnibble.org", msg.sentRepresentingSmtpAddress!)
@@ -1381,7 +1390,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=AEGON/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=BOTTEMA, BENNY7D7\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=AEGON/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=BOTTEMA, BENNY7D7", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Benny Bottema", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertEqual("Bottema, Benny", msg.receivedByName!)
         XCTAssertNotNil(msg.rtfCompressed)
@@ -1431,7 +1440,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=AEGON/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=BOTTEMA, BENNY7D7\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=AEGON/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=BOTTEMA, BENNY7D7", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("SMTP", (msg.getProperty(id: .tagCreatorAddressType) as String?)!)
         XCTAssertEqual("b.bottema@gmail.com", msg.senderEmailAddress!)
         XCTAssertEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<MeetingSet>\r\n  <Version>15.0.0.0</Version>\r\n  <Meetings>\r\n    <Meeting Subject=\"meet up\" StartIndex=\"0\">\r\n      <MeetingString>We should meet up!</MeetingString>\r\n      <Attendees>\r\n        <EmailUser Id=\"b.bottema@projectnibble.org\">lollypop</EmailUser>\r\n        <EmailUser Id=\"benny.bottema@aegon.nl\">C.Cane</EmailUser>\r\n      </Attendees>\r\n      <StartTime>0090-10-05T08:00:00Z</StartTime>\r\n      <EndTime>0090-10-05T08:30:00Z</EndTime>\r\n    </Meeting>\r\n  </Meetings>\r\n</MeetingSet>", msg.extractedMeetings!)
@@ -1524,12 +1533,12 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=aegon/ou=exchange administrative group (fydibohf23spdlt)/cn=recipients/cn=bottema, benny7d7\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=aegon/ou=exchange administrative group (fydibohf23spdlt)/cn=recipients/cn=bottema, benny7d7", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0x00000000, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=aegon/ou=exchange administrative group (fydibohf23spdlt)/cn=recipients/cn=bottema, benny7d7\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=aegon/ou=exchange administrative group (fydibohf23spdlt)/cn=recipients/cn=bottema, benny7d7", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x41, 0x45, 0x47, 0x4F, 0x4E, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x42, 0x4F, 0x54, 0x54, 0x45, 0x4D, 0x41, 0x2C, 0x20, 0x42, 0x45, 0x4E, 0x4E, 0x59, 0x37, 0x44, 0x37, 0x00], [UInt8](msg.recipients[0].searchKey!))
         XCTAssertEqual("Bottema, Benny", msg.recipients[0].displayName!)
         XCTAssertEqual("Bottema, Benny", msg.recipients[0].transmittableDisplayName!)
@@ -1609,7 +1618,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat5() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/nested simple mail")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "nested simple mail")
         let msg = try MsgFile(data: data)
 
         XCTAssertFalse(msg.originatorDeliveryReportRequested!)
@@ -1633,7 +1643,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x01, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x15, 0x00, 0x00, 0x00, 0x71, 0xB7, 0x03, 0x82, 0x10, 0xA7, 0x4B, 0x08, 0xBD, 0x4A, 0xA8, 0x11, 0x6A, 0x8B, 0xE7, 0x00], [UInt8]((msg.getProperty(id: .PR_LAST_MODIFIER_SID) as Data?)!))
         XCTAssertEqual([.read], msg.access)
         XCTAssertEqual("20160328.4", (msg.getProperty(set: .common, name: "TeeVersion") as String?)!)
@@ -1690,19 +1700,19 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=5512C5B0051348D992AF993F92C30F5A-REISINGER E\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=5512C5B0051348D992AF993F92C30F5A-REISINGER E", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(2693775947, (msg.getProperty(id: .unknown0x6201) as UInt32?)!)
         XCTAssertEqual(0x00000000, (msg.receivedByEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=5512C5B0051348D992AF993F92C30F5A-REISINGER E\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=5512C5B0051348D992AF993F92C30F5A-REISINGER E", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([], msg.sideEffects)
         XCTAssertEqual(0x00000000, (msg.senderEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(3079, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
         XCTAssertEqual(1460366277.0, (msg.getProperty(id: .unknown0x0F0A) as Date?)!.timeIntervalSince1970)
         XCTAssertFalse(msg.`private`!)
@@ -1761,7 +1771,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("REISINGER Emanuel\u{00}", msg.displayTo!)
         XCTAssertEqual("EX", (msg.getProperty(id: .tagCreatorAddressType) as String?)!)
         XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=5512C5B0051348D992AF993F92C30F5A-REISINGER E", msg.sentRepresentingEmailAddress!)
@@ -1782,7 +1792,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("emanuel.reisinger", msg.recipients[0].addressBookDisplayNamePrintable!)
         XCTAssertEqual(0, msg.recipients[0].recipientOrder!)
         XCTAssertEqual([0x89, 0xE6, 0x53, 0xB5, 0x5A, 0xE4, 0x74, 0x4C, 0xA5, 0xCB, 0x33, 0x18, 0xD0, 0xFF, 0x50, 0x44], [UInt8]((msg.recipients[0].getProperty(id: .tagAbProviders) as Data?)!))
@@ -1796,7 +1806,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=5512c5b0051348d992af993f92c30f5a-REISINGER E", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("EX", msg.recipients[0].addressType!)
         XCTAssertEqual([0x89, 0xE6, 0x53, 0xB5, 0x5A, 0xE4, 0x74, 0x4C, 0xA5, 0xCB, 0x33, 0x18, 0xD0, 0xFF, 0x50, 0x44], [UInt8]((msg.recipients[0].getProperty(id: .unknown0x0C25) as Data?)!))
         XCTAssertEqual("emanuel.reisinger", msg.recipients[0].account!)
@@ -1837,9 +1847,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat6() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/plain chain")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "plain chain")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(.notAssigned, msg.taskState!)
         XCTAssertEqual(1351039496.0, (msg.getProperty(id: .tagProviderSubmitTime) as Date?)!.timeIntervalSince1970)
         XCTAssertFalse(msg.taskFRecurring!)
@@ -1882,7 +1893,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=ANCA ENTERPRISE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=ROBERTD\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=ANCA ENTERPRISE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=ROBERTD", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("[Redmine - Bug #10180] redmine not truncating emails properly", msg.normalizedSubject!)
         XCTAssertEqual(.notAssigned, msg.taskAcceptanceState!)
         XCTAssertEqual("", msg.displayCc!)
@@ -1899,7 +1910,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=ANCA ENTERPRISE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=ROBERTD\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=ANCA ENTERPRISE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=ROBERTD", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0x00160000, msg.internetMailOverrideFormat!)
         XCTAssertEqual(4294967295, msg.iconIndex!)
         XCTAssertEqual(1351039496.0, msg.clientSubmitTime!.timeIntervalSince1970)
@@ -2012,9 +2023,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat7() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/simple sent")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "simple sent")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("BitDaddys Software", msg.conversationTopic!)
         XCTAssertEqual("", msg.displayCc!)
         XCTAssertEqual(1196302382.0, msg.messageDeliveryTime!.timeIntervalSince1970)
@@ -2085,9 +2097,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadConfusedCat8() throws {
-        let data = try getData(name: "TheConfusedCat/msgparser/unsent draft")
+        /* TheConfusedCat/msgparser */
+        let data = try getData(name: "unsent draft")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(.normal, msg.sensitivity!)
         XCTAssertFalse(msg.`private`!)
         XCTAssertEqual(4294967295, msg.iconIndex!)
@@ -2169,9 +2182,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19771() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/EmailWith2Attachments")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "EmailWith2Attachments")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(9, (msg.getProperty(id: .unknown0x3666) as UInt32?)!)
         XCTAssertEqual(127, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
         XCTAssertTrue(msg.messageRecipientMe!)
@@ -2203,7 +2217,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("20191119.25", (msg.getProperty(set: .common, name: "TeeVersion") as String?)!)
         XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP", msg.receivedRepresentingEmailAddress!)
         XCTAssertEqual("EX", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
@@ -2271,7 +2285,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("R9RYzlXmySXHjiSrtpxS/6LK+Aws2uL7Q1ThyCQItAWMtSY0eww18tAs+fFdNtCBfDb1MR+rUchKpNLeoiXrJ9FQdKRXf/yPp+7JijLOTfxNmbLGPkcZ2fSXTzdWhnFUL9m/AzHeEcoutcU55pppYZt1eL5+Z9aHa8KZP1jYKayiBfYuTz/WlNmvSZ+g+W+5pY50gKSq8Vw1zMxOGQmy/IFd1xE7vey6VtQUGmKPI36PLozB9UZ+adjunUxnFPtyq8dYh/QBjxonCDC/oYX/0UQLVknTj4pNIsOu/YzHjyBSNQYqH+74KcPK7UfVSUrqU3uo0pP3lDcfkr9dcpTBb+K3ksvIvmea++8/XRg8vcMWlOmcRSUGMEBTEF09b5siLQ2brn3m7gkT8HkKkh5pNpviHrGiiHbg+mDa4lxAlmdTvS67HcTKXALosyW+TZmEzKjVOorEcoyDNVtVNKb3dfMX7TG65AGskqqX+psXBuQzQnGfL7zJIpYCVdNqxCKD", (msg.getProperty(set: .common, name: "X-Microsoft-Antispam-Message-Info") as String?)!)
         XCTAssertEqual(" \r\n\r\n \r\n\r\nMet vriendelijke groet,\r\n\r\n \r\n\r\nAchmea | IT | DC Generiek | DCG Build Archiefdiensten\r\n\r\n \r\n\r\nKees van Spelde\r\n\r\nSoftware engineer / Specialist ECM / Security Coördinator OpenText\r\n\r\n \r\n\r\nSpoorlaan 298 | 5017 JZ Tilburg\r\n\r\nGSM: +31 - (0)6 - 10547615\r\n\r\nE-mail : kees.van.spelde@achmea.nl <mailto:kees.van.spelde@achmea.nl> \r\n\r\n \r\n\r\nP Denk aan het milieu en print dit bericht alleen als het noodzakelijk is\r\n\r\n \r\n\r\n", msg.body!)
         XCTAssertTrue(msg.conversationIndexTracking!)
@@ -2295,7 +2309,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(1252, msg.messageCodepage!)
         XCTAssertEqual("Spelde van, CMMA (Kees)\u{00}", msg.displayTo!)
         XCTAssertEqual(.html, msg.nativeBody!)
@@ -2327,7 +2341,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGELABS/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=FD82E4A2A0A8484D89F5A3FCB20D87D2-KEES VAN SP", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x01, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00], [UInt8]((msg.getProperty(set: .messaging, name: "HeaderBodyFragmentList") as Data?)!))
         XCTAssertEqual("Spelde van, CMMA (Kees)", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertEqual(0, msg.reminderDelta!)
@@ -2370,7 +2384,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
 
         XCTAssertEqual(1, msg.recipients.count)
         XCTAssertEqual([0x00, 0x00, 0x00, 0x00, 0xDC, 0xA7, 0x40, 0xC8, 0xC0, 0x42, 0x10, 0x1A, 0xB4, 0xB9, 0x08, 0x00, 0x2B, 0x2F, 0xE1, 0x82, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2F, 0x6F, 0x3D, 0x45, 0x78, 0x63, 0x68, 0x61, 0x6E, 0x67, 0x65, 0x4C, 0x61, 0x62, 0x73, 0x2F, 0x6F, 0x75, 0x3D, 0x45, 0x78, 0x63, 0x68, 0x61, 0x6E, 0x67, 0x65, 0x20, 0x41, 0x64, 0x6D, 0x69, 0x6E, 0x69, 0x73, 0x74, 0x72, 0x61, 0x74, 0x69, 0x76, 0x65, 0x20, 0x47, 0x72, 0x6F, 0x75, 0x70, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x63, 0x6E, 0x3D, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6E, 0x74, 0x73, 0x2F, 0x63, 0x6E, 0x3D, 0x66, 0x64, 0x38, 0x32, 0x65, 0x34, 0x61, 0x32, 0x61, 0x30, 0x61, 0x38, 0x34, 0x38, 0x34, 0x64, 0x38, 0x39, 0x66, 0x35, 0x61, 0x33, 0x66, 0x63, 0x62, 0x32, 0x30, 0x64, 0x38, 0x37, 0x64, 0x32, 0x2D, 0x4B, 0x65, 0x65, 0x73, 0x20, 0x76, 0x61, 0x6E, 0x20, 0x53, 0x70, 0x00], [UInt8](msg.recipients[0].recordKey!))
@@ -2378,7 +2392,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("AA303388", msg.recipients[0].addressBookDisplayNamePrintable!)
         XCTAssertEqual("Spelde van, CMMA (Kees)", msg.recipients[0].transmittableDisplayName!)
         XCTAssertEqual([0xC4, 0x1C, 0x83, 0xD0, 0x33, 0x2C, 0x80, 0x4D, 0x9C, 0x79, 0x06, 0xF6, 0xAA, 0xC2, 0x84, 0x26], [UInt8]((msg.recipients[0].getProperty(id: .tagAbProviders) as Data?)!))
@@ -2390,7 +2404,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=fd82e4a2a0a8484d89f5a3fcb20d87d2-Kees van Sp", msg.recipients[0].emailAddress!)
         XCTAssertEqual(0, msg.recipients[0].rowid!)
         XCTAssertEqual("AA303388", msg.recipients[0].account!)
@@ -2471,9 +2485,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19772() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/EmailWithAttachments")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "EmailWithAttachments")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(.message, msg.objectType!)
         XCTAssertEqual([.unmodified, .hasAttachment], msg.messageFlags)
         XCTAssertEqual(.modify, msg.accessLevel!)
@@ -2596,9 +2611,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19773() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/HtmlSampleEmail")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "HtmlSampleEmail")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", msg.sentRepresentingEmailAddress!)
         XCTAssertNotNil(msg.transportMessageHeaders)
         XCTAssertEqual([.unicodeOk, StoreSupportMask(rawValue: 0x00000E79)], msg.storeSupportMask)
@@ -2609,7 +2625,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([.read], msg.access)
         XCTAssertFalse(msg.readReceiptRequested!)
         XCTAssertFalse(msg.messageCcMe!)
@@ -2618,7 +2634,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.senderSearchKey!))
         XCTAssertEqual(.normal, msg.sensitivity!)
         XCTAssertEqual(0, (msg.getProperty(id: .tagSentRepresentingFlags) as UInt32?)!)
@@ -2634,7 +2650,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("<6BA412B7BBD2FD42861293C22F31BF8F1AEC9B57@pifmbx04.Leeds.gov.uk>", (msg.getProperty(id: .tagInternetMessageId) as String?)!)
         XCTAssertFalse(msg.agingDontAgeMe!)
         XCTAssertEqual("HtmlSampleEmail", msg.subject!)
@@ -2652,12 +2668,12 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(0x00000000, (msg.lastModifierEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(2057, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
         XCTAssertTrue(msg.rtfInSync!)
         XCTAssertEqual("Chris.Wilson@leeds.gov.uk", (msg.getProperty(id: .tagSendingSmtpAddress) as String?)!)
@@ -2730,13 +2746,13 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.recipients[0].searchKey!))
         XCTAssertEqual(0x00000000, (msg.recipients[0].entryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertTrue(msg.recipients[0].sendRichInfo!)
         XCTAssertEqual(0, msg.recipients[0].recipientOrder!)
         XCTAssertEqual("Chris.Wilson", msg.recipients[0].account!)
@@ -2763,15 +2779,16 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19774() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/HtmlSampleEmailWithAttachment")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "HtmlSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertFalse(msg.agingDontAgeMe!)
         XCTAssertEqual(0x00000000, (msg.senderEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(1508749622.0, msg.lastModificationTime!.timeIntervalSince1970)
         XCTAssertEqual([0x02, 0x00, 0x4B, 0x61, 0x73, 0x70, 0x72, 0x4C, 0x61, 0x62, 0xA6, 0xA4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], [UInt8]((msg.getProperty(id: .unknown0x0E9D) as Data?)!))
         XCTAssertEqual("pifchu04.Leeds.gov.uk", (msg.getProperty(set: .internetHeaders, name: "x-ms-exchange-organization-authsource") as String?)!)
@@ -2805,7 +2822,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertNotNil(msg.tnefCorrelationKey)
         XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.getProperty(id: .tagCreatorEmailAddress) as String?)!)
         XCTAssertEqual("EX", (msg.getProperty(id: .tagCreatorAddressType) as String?)!)
@@ -2813,7 +2830,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.sentRepresentingName!)
         XCTAssertEqual("<6BA412B7BBD2FD42861293C22F31BF8F1AECAC13@pifmbx04.Leeds.gov.uk>", (msg.getProperty(id: .tagInternetMessageId) as String?)!)
         XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", msg.receivedRepresentingEmailAddress!)
@@ -2839,7 +2856,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.receivedBySearchKey!))
         XCTAssertEqual(0, (msg.getProperty(id: .tagReceivedByFlags) as UInt32?)!)
         XCTAssertEqual(1033, msg.messageLocaleId!)
@@ -2876,7 +2893,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(20127, msg.internetCodepage!)
         XCTAssertEqual("EX", msg.receivedByAddressType!)
         XCTAssertEqual("BT=0;II=01D34BDDE8AEE5B589B0CFE74409BF6B2C3CCD2D01C1;FIXUP=0.7301;Version=Version 14.3 (Build 361.0), Stage=H4", (msg.getProperty(guid: UUID(uuidString: "33EBA41F-7AA8-422E-BE7B-79E1A98E54B3")!, name: "ConversationIndexTrackingEx") as String?)!)
@@ -2906,7 +2923,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.sendable, msg.recipients[0].recipientFlags!)
         XCTAssertEqual("Chris.Wilson@leeds.gov.uk", msg.recipients[0].smtpAddress!)
         XCTAssertEqual([DisplayTypeEx(rawValue: 0x40000000)], msg.recipients[0].displayTypeEx)
@@ -2919,7 +2936,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertTrue(msg.recipients[0].sendRichInfo!)
         XCTAssertEqual(.none, msg.recipients[0].recipientTrackStatus!)
         XCTAssertEqual("Wilson, Chris", msg.recipients[0].displayName!)
@@ -2958,9 +2975,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19775() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/RtfSampleEmail")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "RtfSampleEmail")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual([.read], msg.access)
         XCTAssertNotNil(msg.rtfCompressed)
         XCTAssertEqual("IPM.Note", msg.messageClass!)
@@ -2977,7 +2995,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.receivedRepresentingName!)
         XCTAssertEqual(0, (msg.getProperty(id: .tagSenderFlags) as UInt32?)!)
         XCTAssertTrue(msg.conversationIndexTracking!)
@@ -2993,7 +3011,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertTrue(msg.rtfInSync!)
         XCTAssertEqual(2057, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
         XCTAssertEqual("EX", msg.sentRepresentingAddressType!)
@@ -3004,7 +3022,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([], msg.sideEffects)
         XCTAssertEqual("00000002\u{01}/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", msg.internetAccountStamp!)
         XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", msg.receivedRepresentingEmailAddress!)
@@ -3015,7 +3033,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.senderSearchKey!))
         XCTAssertEqual("Chris.Wilson@leeds.gov.uk", (msg.getProperty(id: .tagSendingSmtpAddress) as String?)!)
         XCTAssertEqual(0x00160000, msg.internetMailOverrideFormat!)
@@ -3040,7 +3058,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.receivedByName!)
         XCTAssertEqual(1252, msg.messageCodepage!)
         XCTAssertFalse(msg.reminderSet!)
@@ -3093,7 +3111,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.mailUser, msg.recipients[0].displayType!)
         XCTAssertEqual(.none, msg.recipients[0].recipientTrackStatus!)
         XCTAssertEqual("Chris.Wilson", msg.recipients[0].account!)
@@ -3113,7 +3131,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.recipients[0].transmittableDisplayName!)
         XCTAssertEqual([DisplayTypeEx(rawValue: 0x40000000)], msg.recipients[0].displayTypeEx)
         XCTAssertEqual("sip:chris.wilson@leeds.gov.uk", (msg.recipients[0].getProperty(id: .unknown0x5FE5) as String?)!)
@@ -3125,9 +3143,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19776() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/RtfSampleEmailWithAttachment")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "RtfSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertTrue(msg.hasAttachments!)
         XCTAssertEqual(106862, (msg.getProperty(id: .unknown0x0E2F) as UInt32?)!)
         XCTAssertEqual(.normal, msg.importance!)
@@ -3139,7 +3158,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.receivedByName!)
         XCTAssertEqual(0, (msg.getProperty(id: .tagSenderFlags) as UInt32?)!)
         XCTAssertEqual("Chris.Wilson@leeds.gov.uk", (msg.getProperty(id: .tagSendingSmtpAddress) as String?)!)
@@ -3175,7 +3194,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("sip:chris.wilson@leeds.gov.uk", (msg.getProperty(id: .unknown0x5FE5) as String?)!)
         XCTAssertEqual("Wilson, Chris", (msg.getProperty(id: .tagSenderName) as String?)!)
         XCTAssertNotNil(msg.rtfCompressed)
@@ -3206,7 +3225,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([.read], msg.access)
         XCTAssertEqual("", msg.displayCc!)
         XCTAssertEqual(4294967295, msg.iconIndex!)
@@ -3240,14 +3259,14 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(1508749623.0, msg.creationTime!.timeIntervalSince1970)
         XCTAssertEqual(1508749521.0, msg.clientSubmitTime!.timeIntervalSince1970)
         XCTAssertEqual(0x00000000, (msg.senderEntryId as? AddressBookEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Internal", (msg.getProperty(set: .internetHeaders, name: "x-ms-exchange-organization-authas") as String?)!)
         XCTAssertEqual("Chris.Wilson@leeds.gov.uk", msg.sentRepresentingSmtpAddress!)
         XCTAssertFalse((msg.getProperty(set: .messaging, name: "IsSigned") as Bool?)!)
@@ -3264,7 +3283,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.mailUser, msg.recipients[0].displayType!)
         XCTAssertEqual(.sendable, msg.recipients[0].recipientFlags!)
         XCTAssertEqual(.none, msg.recipients[0].recipientTrackStatus!)
@@ -3272,7 +3291,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Chris.Wilson", msg.recipients[0].account!)
         XCTAssertEqual([DisplayTypeEx(rawValue: 0x40000000)], msg.recipients[0].displayTypeEx)
         XCTAssertEqual(.mailUser, msg.recipients[0].objectType!)
@@ -3320,9 +3339,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadSicos19777() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/TxtSampleEmail")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "TxtSampleEmail")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("EX", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
         XCTAssertEqual("Wilson, Chris", msg.receivedByName!)
         XCTAssertEqual(.normal, msg.sensitivity!)
@@ -3336,7 +3356,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.plainText, msg.messageEditorFormat!)
         XCTAssertEqual("TxtSampleEmail", msg.normalizedSubject!)
         XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", msg.senderEmailAddress!)
@@ -3359,7 +3379,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x18, 0x08, 0x00, 0x00, 0x92, 0x0E, 0x89, 0x2F, 0x42, 0x00, 0x00, 0x00], [UInt8]((msg.getProperty(id: .unknown0x3014) as Data?)!))
         XCTAssertFalse(msg.`private`!)
         XCTAssertEqual("Wilson, Chris\u{00}", msg.displayTo!)
@@ -3405,7 +3425,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.receivedRepresentingName!)
         XCTAssertEqual([0x02, 0x00, 0x4B, 0x61, 0x73, 0x70, 0x72, 0x4C, 0x61, 0x62, 0xA6, 0xA4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], [UInt8]((msg.getProperty(id: .unknown0x0E9D) as Data?)!))
         XCTAssertFalse(msg.agingDontAgeMe!)
@@ -3426,7 +3446,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("EX", msg.sentRepresentingAddressType!)
         XCTAssertTrue(msg.conversationIndexTracking!)
         XCTAssertEqual("", msg.subjectPrefix!)
@@ -3434,7 +3454,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.receivedRepresentingSearchKey!))
         XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.getProperty(id: .tagCreatorEmailAddress) as String?)!)
         XCTAssertFalse(msg.reminderSet!)
@@ -3463,7 +3483,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(.mailUser, msg.recipients[0].objectType!)
         XCTAssertEqual([0x00, 0x10, 0xEA, 0x8C], [UInt8](msg.recipients[0].instanceKey!))
         XCTAssertTrue(msg.recipients[0].responsibility!)
@@ -3479,16 +3499,17 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertTrue(msg.recipients[0].sendRichInfo!)
 
         XCTAssertEqual(0, msg.attachments.count)
     }
 
     func testReadSicos19778() throws {
-        let data = try getData(name: "Sicos1977/MSGReader/TxtSampleEmailWithAttachment")
+        /* Sicos1977/MSGReader */
+        let data = try getData(name: "TxtSampleEmailWithAttachment")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(1508749524.0, msg.messageDeliveryTime!.timeIntervalSince1970)
         XCTAssertEqual(2057, (msg.getProperty(set: .common, lid: 0x000085EB) as UInt32?)!)
         XCTAssertEqual("EX", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
@@ -3536,7 +3557,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Clean, bases: 23/10/2017 05:31:00", (msg.getProperty(set: .internetHeaders, name: "x-kse-antivirus-info") as String?)!)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.sentRepresentingSearchKey!))
         XCTAssertEqual(0, msg.reminderDelta!)
@@ -3547,7 +3568,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.receivedRepresentingSearchKey!))
         XCTAssertEqual("TxtSampleEmailWithAttachment", msg.normalizedSubject!)
         XCTAssertEqual([0x02, 0x00, 0x4B, 0x61, 0x73, 0x70, 0x72, 0x4C, 0x61, 0x62, 0xA6, 0xA4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], [UInt8]((msg.getProperty(id: .unknown0x0E9D) as Data?)!))
@@ -3573,7 +3594,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("scan successful", (msg.getProperty(set: .internetHeaders, name: "x-kse-antivirus-interceptor-info") as String?)!)
         XCTAssertEqual("[10.184.253.12]", (msg.getProperty(set: .internetHeaders, name: "x-originating-ip") as String?)!)
         XCTAssertEqual("Wilson, Chris", msg.receivedRepresentingName!)
@@ -3581,7 +3602,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.sentRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.sentRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.sentRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertFalse((msg.getProperty(set: .messaging, name: "IsSigned") as Bool?)!)
         XCTAssertEqual("TxtSampleEmailWithAttachment", msg.subject!)
         XCTAssertEqual(.normal, msg.importance!)
@@ -3596,7 +3617,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.senderEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.senderEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.senderEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON\u{00}", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=CHRIS.WILSON", (msg.senderEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(28591, msg.internetCodepage!)
         XCTAssertEqual(106863, (msg.getProperty(id: .tagInternetArticleNumber) as UInt32?)!)
         XCTAssertTrue(msg.hasAttachments!)
@@ -3633,7 +3654,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson\u{00}", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/o=Exchange/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=Chris.Wilson", (msg.recipients[0].recipientEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("Wilson, Chris", msg.recipients[0].displayName!)
         XCTAssertEqual(.sendable, msg.recipients[0].recipientFlags!)
         XCTAssertEqual(.none, msg.recipients[0].recipientTrackStatus!)
@@ -3642,7 +3663,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.recipients[0].entryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.recipients[0].entryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.recipients[0].entryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson\u{00}", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=EXCHANGE/OU=EXCHANGE ADMINISTRATIVE GROUP (FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=Chris.Wilson", (msg.recipients[0].entryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual("EX", msg.recipients[0].addressType!)
         XCTAssertEqual("sip:chris.wilson@leeds.gov.uk", (msg.recipients[0].getProperty(id: .unknown0x5FE5) as String?)!)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x20, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x43, 0x48, 0x52, 0x49, 0x53, 0x2E, 0x57, 0x49, 0x4C, 0x53, 0x4F, 0x4E, 0x00], [UInt8](msg.recipients[0].searchKey!))
@@ -3680,7 +3701,7 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadOnline1() throws {
-        let data = try getData(name: "Online/example")
+        let data = try getData(name: "online_example")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(0xFFFFFFFF, msg.iconIndex!)
@@ -3764,7 +3785,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadOnline2() throws {
-        let data = try getData(name: "Online/sample")
+        /* Online */
+        let data = try getData(name: "online_sample")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("sales@bitdaddys.com\u{00}", msg.displayTo!)
@@ -3837,9 +3859,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine1() throws {
-        let data = try getData(name: "hughbe/MVP")
+        /* hughbe */
+        let data = try getData(name: "MVP")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual("mvpga@microsoft.com", msg.senderEmailAddress!)
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
@@ -3950,7 +3973,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine2() throws {
-        let data = try getData(name: "hughbe/custom")
+        /* hughbe */
+        let data = try getData(name: "custom")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(.urgent, msg.priority!)
@@ -4606,9 +4630,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine3() throws {
-        let data = try getData(name: "hughbe/FlaggedMessage")
+        /* hughbe */
+        let data = try getData(name: "FlaggedMessage")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual([.openForContextMenu], msg.sideEffects)
         XCTAssertEqual("00000002\u{01}hughbellars@gmail.com\u{01}hughbellars@gmail.com", msg.nextSendAcct!)
         XCTAssertEqual(.readOnly, msg.accessLevel!)
@@ -5265,9 +5290,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine4() throws {
-        let data = try getData(name: "hughbe/custom3")
+        /* hughbe */
+        let data = try getData(name: "custom3")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(0, msg.reminderDelta!)
         XCTAssertEqual("", msg.displayCc!)
         XCTAssertEqual("SMTP", msg.sentRepresentingAddressType!)
@@ -5422,9 +5448,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine5() throws {
-        let data = try getData(name: "hughbe/contact")
+        /* hughbe */
+        let data = try getData(name: "contact")
         let msg = try MsgFile(data: data)
-     
+
         XCTAssertEqual("F.N.M.N.L.N.", msg.initials!)
         XCTAssertFalse(msg.autoLog!)
         XCTAssertEqual(1, msg.predecessorChangeList!.values.count)
@@ -5619,9 +5646,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine6() throws {
-        let data = try getData(name: "hughbe/event")
+        /* hughbe */
+        let data = try getData(name: "event")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(1595840668.0, msg.creationTime!.timeIntervalSince1970)
         XCTAssertEqual(1595840470.0, msg.messageDeliveryTime!.timeIntervalSince1970)
         XCTAssertTrue(msg.rtfInSync!)
@@ -5873,9 +5901,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine7() throws {
-        let data = try getData(name: "hughbe/discussion")
+        /* hughbe */
+        let data = try getData(name: "discussion")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(20127, msg.internetCodepage!)
         XCTAssertTrue(msg.rtfInSync!)
         XCTAssertFalse(msg.readReceiptRequested!)
@@ -5951,9 +5980,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine8() throws {
-        let data = try getData(name: "hughbe/multiple")
+        /* hughbe */
+        let data = try getData(name: "multiple")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
         XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
         XCTAssertEqual(0x0000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.version)
@@ -6078,9 +6108,10 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine9() throws {
-        let data = try getData(name: "hughbe/task")
+        /* hughbe */
+        let data = try getData(name: "task")
         let msg = try MsgFile(data: data)
-        
+
         XCTAssertEqual([0x53, 0x4D, 0x54, 0x50, 0x3A, 0x48, 0x55, 0x47, 0x48, 0x42, 0x45, 0x4C, 0x4C, 0x41, 0x52, 0x53, 0x40, 0x47, 0x4D, 0x41, 0x49, 0x4C, 0x2E, 0x43, 0x4F, 0x4D, 0x00], [UInt8](msg.sentRepresentingSearchKey!))
         XCTAssertEqual(1613001, msg.currentVersion!)
         XCTAssertEqual(.notAssigned, msg.taskAcceptanceState!)
@@ -6228,7 +6259,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine10() throws {
-        let data = try getData(name: "hughbe/SimpleMessage")
+        /* hughbe */
+        let data = try getData(name: "SimpleMessage")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Subject", msg.conversationTopic!)
@@ -6345,7 +6377,8 @@ final class EmailTests: XCTestCase {
     }
 
     func testReadMine11() throws {
-        let data = try getData(name: "hughbe/Sample")
+        /* hughbe */
+        let data = try getData(name: "hughbe_Sample")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Hugh Bellamy", msg.lastModifierName!)
@@ -6399,7 +6432,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30\u{00}", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30", (msg.receivedRepresentingEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0xEF, 0x00, 0x00, 0x00, 0x82, 0x4D, 0xB9, 0x3C, 0xFA, 0x46, 0x2B, 0x9E], [UInt8]((msg.getProperty(id: .unknown0x3014) as Data?)!))
         XCTAssertEqual("[\"ExtractionId\",\"a940acef-c8c6-428f-a564-b301f8896c9f\",\"TeeEngineVersion\",\"52.0.0\",\"BuildNumber\",\"20201005.21\",\"ChangesetNumber\",\"24747f22ecffc403784e3b2861b7224a18fe19c6\",\"Locale\",\"en-US\",\"MessageId\",\"\\u003c007c01d6a2f4$9c2c09a0$d4841ce0$@gmail.com\\u003e\",\"ReferenceTime\",\"2020-10-15T13:10:59.0000000Z\",\"Flights\",\"TEEReplyWithShipWW;TEEM2HPayloadEnabledFlight;TEEEntityDocumentFlightEnabled;TEE_Tasks_RequestsPeopleAssignmentRedesigned;CheckJunkMailHeadersFlight;TEEImportantContact;TEEInboxPlusFlight;TEEEnableTermFrequency;TEEEnableExperimentalTermFrequency;TEEFirstBodyFlight;TEEFilesProcessor;TEEExtractQuotedTextLanguagesFlight;TEERequestsForESFlightV2;TEESmartReplyForEnEnabled_WW;TEECouponRankerFlight;CommitmentsfpgahaasRealTrafficflight;KtgClassifierSentItemsFlight;TEECommitmentsForESFlight;TEEFollowUpForESFlightV2;QasTestKPEOffBoxB2;QasAcronymExtractorOffBoxB2;RawKPEScoresFlight;TEEAcronymsExtractorCancToken;TEEExtractedOnlineMeetingInfoFlight;TEEFlightReservationOptionalFieldsFlight\",\"StartTime\",\"2020-10-15T13:11:01.1947596Z\",\"EndTime\",\"2020-10-15T13:11:01.1967508Z\"]", (msg.getProperty(set: .common, name: "EntityExtractionServiceDiagnosticContext") as String?)!)
         XCTAssertEqual("Anonymous", (msg.getProperty(set: .internetHeaders, name: "x-ms-exchange-organization-authas") as String?)!)
@@ -6477,7 +6510,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.lastModifierEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.lastModifierEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.lastModifierEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30\u{00}", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30", (msg.lastModifierEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual([0x45, 0x58, 0x3A, 0x2F, 0x4F, 0x3D, 0x46, 0x49, 0x52, 0x53, 0x54, 0x20, 0x4F, 0x52, 0x47, 0x41, 0x4E, 0x49, 0x5A, 0x41, 0x54, 0x49, 0x4F, 0x4E, 0x2F, 0x4F, 0x55, 0x3D, 0x45, 0x58, 0x43, 0x48, 0x41, 0x4E, 0x47, 0x45, 0x20, 0x41, 0x44, 0x4D, 0x49, 0x4E, 0x49, 0x53, 0x54, 0x52, 0x41, 0x54, 0x49, 0x56, 0x45, 0x20, 0x47, 0x52, 0x4F, 0x55, 0x50, 0x28, 0x46, 0x59, 0x44, 0x49, 0x42, 0x4F, 0x48, 0x46, 0x32, 0x33, 0x53, 0x50, 0x44, 0x4C, 0x54, 0x29, 0x2F, 0x43, 0x4E, 0x3D, 0x52, 0x45, 0x43, 0x49, 0x50, 0x49, 0x45, 0x4E, 0x54, 0x53, 0x2F, 0x43, 0x4E, 0x3D, 0x30, 0x30, 0x30, 0x33, 0x37, 0x46, 0x46, 0x45, 0x33, 0x34, 0x35, 0x33, 0x34, 0x43, 0x33, 0x30, 0x00], [UInt8](msg.receivedBySearchKey!))
         XCTAssertFalse(msg.readReceiptRequested!)
         XCTAssertEqual(1602767452.0, msg.clientSubmitTime!.timeIntervalSince1970)
@@ -6519,7 +6552,7 @@ final class EmailTests: XCTestCase {
         XCTAssertEqual(UUID(uuidString: "DCA740C8-C042-101A-B4B9-08002B2FE182"), (msg.receivedByEntryId as? AddressBookEntryID)!.providerUid)
         XCTAssertEqual(0x00000001, (msg.receivedByEntryId as? AddressBookEntryID)!.version)
         XCTAssertEqual(.localMailUser, (msg.receivedByEntryId as? AddressBookEntryID)!.type)
-        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30\u{00}", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
+        XCTAssertEqual("/O=FIRST ORGANIZATION/OU=EXCHANGE ADMINISTRATIVE GROUP(FYDIBOHF23SPDLT)/CN=RECIPIENTS/CN=00037FFE34534C30", (msg.receivedByEntryId as? AddressBookEntryID)!.x500DN)
         XCTAssertEqual(2, (msg.getProperty(id: .tagContentFilterPhishingConfidenceLevel) as UInt32?)!)
         XCTAssertFalse(msg.messageCcMe!)
         XCTAssertEqual([0x53, 0x4D, 0x54, 0x50, 0x3A, 0x48, 0x55, 0x47, 0x48, 0x42, 0x45, 0x4C, 0x4C, 0x41, 0x52, 0x53, 0x40, 0x47, 0x4D, 0x41, 0x49, 0x4C, 0x2E, 0x43, 0x4F, 0x4D, 0x00], [UInt8](msg.sentRepresentingSearchKey!))

@@ -135,7 +135,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         /// The values associated with the fixed length multiple-valued property are stored in the stream contiguously like an array.
         func readFixedLengthMultiValuedProperty<T>(size: Int = MemoryLayout<T>.size, readFunc: (inout DataStream) throws -> T) throws -> [T]? {
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
 
             let count = dataStream.count / size
             var elements: [T] = []
@@ -174,7 +174,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             /// specifies the size of the second value, and so on. The format of length stream entries depends on the
             /// property's type. The following sections specify the format of one entry in the length stream.
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
             
             /// [MS-OXMSG] 2.1.4.2.1.2 Length for PtypMultipleString8 or PtypMultipleString
             /// Each entry in the length stream for a PtypMultipleString8 property or a PtypMultipleString
@@ -249,7 +249,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             return try getData(id: id, type: type)
         case .guid:
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
             return try dataStream.readGUID(endianess: .littleEndian)
         case .objectOrEmbeddedTable:
             return try getData(id: id, type: type)
@@ -293,16 +293,16 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
             return reinterpret_cast(to: UInt32.self)
         case .serverId:
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
             let _: UInt16 = try dataStream.read(endianess: .littleEndian)
             return try? ServerId(dataStream: &dataStream)
         case .restriction:
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
             return try? Restriction(dataStream: &dataStream, standard: true)
         case .ruleAction:
             let data = try getData(id: id, type: type)
-            var dataStream = DataStream(data: data)
+            var dataStream = DataStream(data)
 
             let count: UInt16 = try dataStream.read(endianess: .littleEndian)
             var results: [RuleAction] = []

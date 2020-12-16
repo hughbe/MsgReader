@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/hughbe/CompoundFileReader",
         "state": {
           "branch": null,
-          "revision": "2f1c9add12415c1832843c6669d10fdcdeb30d6c",
-          "version": "1.0.6"
+          "revision": "68d65eb68a0df6bb90261dbb0f6191f1609755f3",
+          "version": "1.0.10"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/hughbe/CompressedRtf",
         "state": {
           "branch": null,
-          "revision": "39c387bb76e0114da2a3713e8768d9c76275d9ef",
-          "version": "1.0.2"
+          "revision": "63107959f2dd99ed8758c95498c0e383c1b0d10e",
+          "version": "1.0.3"
         }
       },
       {
@@ -24,8 +24,17 @@
         "repositoryURL": "https://github.com/hughbe/DataStream",
         "state": {
           "branch": null,
-          "revision": "e7da621235b5a4db261f82a51a936947c5dcab0c",
-          "version": "1.2.0"
+          "revision": "858175a666cd9d9d45b2d9a364dba61a41940120",
+          "version": "2.0.3"
+        }
+      },
+      {
+        "package": "BitField",
+        "repositoryURL": "https://github.com/hughbe/SwiftBitField",
+        "state": {
+          "branch": null,
+          "revision": "993f2e4ec4d4edfc598abd3e87cc813e937cffc1",
+          "version": "1.0.0"
         }
       },
       {
@@ -33,8 +42,8 @@
         "repositoryURL": "https://github.com/hughbe/SwiftMAPI",
         "state": {
           "branch": null,
-          "revision": "116e9d3d4a40ceffc66921d9dff8c7359bf3b6bb",
-          "version": "1.1.4"
+          "revision": "f2aec6c1df65c590c571a60bb4a0d96c280b158e",
+          "version": "1.1.8"
         }
       },
       {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/hughbe/WindowsDataTypes",
         "state": {
           "branch": null,
-          "revision": "fd6b3e38ab79fe9f26b17b3d6e62bc9d15445f3e",
-          "version": "1.0.5"
+          "revision": "2d0efa7a0fbdb3eae9ff99456cb864382b883f4d",
+          "version": "1.0.10"
         }
       }
     ]

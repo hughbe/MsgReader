@@ -5,12 +5,13 @@ import MAPI
 
 final class MeetingTests: XCTestCase {
     public func testSimpleMeeting() throws {
-        let data = try getData(name: "hughbe/Meeting")
+        /* hughbe */
+        let data = try getData(name: "Meeting")
         let msg = try MsgFile(data: data)
-        
+
         testDump(message: msg)
     }
-    
+
     static var allTests = [
         ("testSimpleMeeting", testSimpleMeeting)
     ]

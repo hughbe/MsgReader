@@ -5,7 +5,8 @@ import MAPI
 
 final class TaskTests: XCTestCase {
     public func testSimpleTask() throws {
-        let data = try getData(name: "hughbe/Simple Task")
+        /* hughbe */
+        let data = try getData(name: "Simple Task")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual(.normal, msg.priority!)

@@ -5,7 +5,8 @@ import MAPI
 
 final class JournalTests: XCTestCase {
     public func testSimpleJournalEntry() throws {
-        let data = try getData(name: "hughbe/Journal Entry")
+        /* hughbe */
+        let data = try getData(name: "Journal Entry")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Journal Entry", msg.subject!)

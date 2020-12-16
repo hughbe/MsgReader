@@ -5,7 +5,8 @@ import MAPI
 
 final class NoteTests: XCTestCase {
     public func testSimpleNote() throws {
-        let data = try getData(name: "hughbe/Simple Note")
+        /* hughbe */
+        let data = try getData(name: "Simple Note")
         let msg = try MsgFile(data: data)
 
         XCTAssertEqual("Note", msg.conversationTopic!)
