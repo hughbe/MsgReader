@@ -1,6 +1,7 @@
 import XCTest
 import CompressedRtf
 import MAPI
+import WindowsDataTypes
 @testable import MsgReader
 
 final class JournalTests: XCTestCase {
@@ -31,7 +32,7 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual("hughbellars@gmail.com", msg.lastModifierName!)
         XCTAssertTrue(msg.rtfInSync!)
         XCTAssertEqual(0x00000000, (msg.senderEntryId as? OneOffEntryID)!.flags)
-        XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.senderEntryId as? OneOffEntryID)!.providerUid)
+        XCTAssertEqual(GUID(0xA41F2B81, 0xA3BE, 0x1910, 0x9D6E, 0x00DD010F5402), (msg.senderEntryId as? OneOffEntryID)!.providerUid)
         XCTAssertEqual(0x0000, (msg.senderEntryId as? OneOffEntryID)!.version)
         XCTAssertEqual([.unicode], (msg.senderEntryId as? OneOffEntryID)!.entryFlags)
         XCTAssertEqual("hughbellars@gmail.com", (msg.senderEntryId as? OneOffEntryID)!.displayName)
@@ -62,7 +63,7 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual(1599559140.0, msg.logStart!.timeIntervalSince1970)
         XCTAssertEqual(1599559173.0, msg.validFlagStringProof!.timeIntervalSince1970)
         XCTAssertEqual(1, msg.predecessorChangeList!.values.count)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.predecessorChangeList!.values[0].namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.predecessorChangeList!.values[0].namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x98, 0xDF], msg.predecessorChangeList!.values[0].localId)
         XCTAssertFalse(msg.logDocumentSaved!)
         XCTAssertEqual("SMTP", msg.sentRepresentingAddressType!)
@@ -79,10 +80,10 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual([.read], msg.access)
         XCTAssertTrue(msg.`private`!)
         XCTAssertEqual(1599559195.0, msg.creationTime!.timeIntervalSince1970)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.changeKey!.namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.changeKey!.namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x98, 0xDF], msg.changeKey!.localId)
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
-        XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
+        XCTAssertEqual(GUID(0xA41F2B81, 0xA3BE, 0x1910, 0x9D6E, 0x00DD010F5402), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
         XCTAssertEqual(0x0000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.version)
         XCTAssertEqual([.unicode], (msg.sentRepresentingEntryId as? OneOffEntryID)!.entryFlags)
         XCTAssertEqual("hughbellars@gmail.com", (msg.sentRepresentingEntryId as? OneOffEntryID)!.displayName)
@@ -93,7 +94,7 @@ final class JournalTests: XCTestCase {
         XCTAssertFalse(msg.logDocumentPrinted!)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
         XCTAssertEqual(1292710568480.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
-        XCTAssertEqual(UUID(uuidString: "28B6E514-F981-40D9-88A9-9DFEAC93A40D"), msg.conversationIndex!.header.guid)
+        XCTAssertEqual(GUID(0x28B6E514, 0xF981, 0x40D9, 0x88A9, 0x9DFEAC93A40D), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual("SMTP", (msg.getProperty(id: .tagSenderAddressType) as String?)!)
         XCTAssertEqual([0x53, 0x4D, 0x54, 0x50, 0x3A, 0x48, 0x55, 0x47, 0x48, 0x42, 0x45, 0x4C, 0x4C, 0x41, 0x52, 0x53, 0x40, 0x47, 0x4D, 0x41, 0x49, 0x4C, 0x2E, 0x43, 0x4F, 0x4D, 0x00], [UInt8](msg.senderSearchKey!))

@@ -1,6 +1,7 @@
 import XCTest
 import CompressedRtf
 import MAPI
+import WindowsDataTypes
 @testable import MsgReader
 
 final class NoteTests: XCTestCase {
@@ -25,7 +26,7 @@ final class NoteTests: XCTestCase {
         XCTAssertEqual(.yellow, msg.noteColor!)
         XCTAssertEqual(1033, msg.messageLocaleId!)
         XCTAssertEqual(1, msg.predecessorChangeList!.values.count)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.predecessorChangeList!.values[0].namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.predecessorChangeList!.values[0].namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x18, 0x71], msg.predecessorChangeList!.values[0].localId)
         XCTAssertTrue(msg.rtfInSync!)
         XCTAssertFalse(msg.agingDontAgeMe!)
@@ -51,13 +52,13 @@ final class NoteTests: XCTestCase {
         XCTAssertEqual(1599906820.0, msg.lastModificationTime!.timeIntervalSince1970)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
         XCTAssertEqual(1378870058851.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
-        XCTAssertEqual(UUID(uuidString: "985E10F3-923E-4952-9E23-44B976EE3A99"), msg.conversationIndex!.header.guid)
+        XCTAssertEqual(GUID(0x985E10F3, 0x923E, 0x4952, 0x9E23, 0x44B976EE3A99), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual([.read], msg.messageFlags)
         XCTAssertFalse(msg.deleteAfterSubmit!)
         XCTAssertEqual(1595844027.0, msg.validFlagStringProof!.timeIntervalSince1970)
         XCTAssertEqual(.normal, msg.priority!)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.changeKey!.namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.changeKey!.namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x18, 0x71], msg.changeKey!.localId)
         XCTAssertEqual(.undefined, msg.nativeBody!)
         XCTAssertEqual([.read], msg.access)

@@ -10,6 +10,7 @@ import CompoundFileReader
 import DataStream
 import Foundation
 import MAPI
+import WindowsDataTypes
 
 /// [MS-OXMSG] 2.2.3.1 Property ID to Property Name Mapping
 /// The streams specified in the following sections MUST be present inside the named property mapping storage.
@@ -32,14 +33,14 @@ internal struct NamedPropertyMapping: CustomDebugStringConvertible {
         }
         
         var guidDataStream = guidStream.dataStream
-        func getGuid(index: Int) throws -> UUID {
-            let position = index * MemoryLayout<UUID>.size
+        func getGuid(index: Int) throws -> GUID {
+            let position = index * MemoryLayout<GUID>.size
             if position >= guidDataStream.count {
                 throw MsgReadError.corrupted
             }
 
             guidDataStream.position = position
-            return try guidDataStream.readGUID(endianess: .littleEndian)
+            return try GUID(dataStream: &guidDataStream)
         }
         
         /// [MS-OXMSG] 2.2.3.1.3 String Stream
@@ -104,14 +105,14 @@ internal struct NamedPropertyMapping: CustomDebugStringConvertible {
             /// Index and Kind Information (4 bytes): This value MUST have the structure specified in section 2.2.3.1.2.1.
             let indexAndKindInformation = try NamedPropertyIndexAndKindInformation(dataStream: &entryDataStream)
 
-            let guid: UUID
+            let guid: GUID
             switch indexAndKindInformation.guidIndex {
             case 1:
                 /// Always use the PS_MAPI property set, as specified in [MS-OXPROPS] section 1.3.2. No GUID is stored in the GUID stream.
-                guid = CommonlyUsedPropertySet.mapi.uuid
+                guid = CommonlyUsedPropertySet.mapi.guid
             case 2:
                 /// Always use the PS_PUBLIC_STRINGS property set, as specified in [MS-OXPROPS] section 1.3.2. No GUID is stored in the GUID stream.
-                guid = CommonlyUsedPropertySet.publicStrings.uuid
+                guid = CommonlyUsedPropertySet.publicStrings.guid
             default:
                 /// Use Value minus 3 as the index of the GUID into the GUID stream. For example, if the GUID index is 5,
                 /// the third GUID (5 minus 3, resulting in a zero-based index of 2) is used as the GUID for the name

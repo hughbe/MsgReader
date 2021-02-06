@@ -250,7 +250,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         case .guid:
             let data = try getData(id: id, type: type)
             var dataStream = DataStream(data)
-            return try dataStream.readGUID(endianess: .littleEndian)
+            return try GUID(dataStream: &dataStream)
         case .objectOrEmbeddedTable:
             return try getData(id: id, type: type)
         case .multipleString8:
@@ -330,7 +330,7 @@ internal class PropertyStream<T>: CustomDebugStringConvertible where T: Properti
         case .multipleTime:
             return try readFixedLengthMultiValuedProperty(size: MemoryLayout<FILETIME>.size) { try FILETIME(dataStream: &$0).date }
         case .multipleGuid:
-            return try readFixedLengthMultiValuedProperty { try $0.readGUID(endianess: .littleEndian) }
+            return try readFixedLengthMultiValuedProperty { try GUID(dataStream: &$0) }
         case .multipleBinary:
             /// [MS-OXMSG] 2.1.4.2.1.1 Length for PtypMultipleBinary
             /// Each entry in the length stream for a PtypMultipleBinary property ([MS-OXCDATA] section 2.11.1)

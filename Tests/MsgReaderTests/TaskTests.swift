@@ -1,6 +1,7 @@
 import XCTest
 import CompressedRtf
 import MAPI
+import WindowsDataTypes
 @testable import MsgReader
 
 final class TaskTests: XCTestCase {
@@ -19,7 +20,7 @@ final class TaskTests: XCTestCase {
         XCTAssertEqual(.notAssigned, msg.taskOwnership!)
         XCTAssertEqual(0x01, msg.conversationIndex!.header.reserved)
         XCTAssertEqual(588882389215.0, msg.conversationIndex!.header.currentFileTime.timeIntervalSince1970)
-        XCTAssertEqual(UUID(uuidString: "F8D90074-0449-42EA-95E3-7D3592F9E6B8"), msg.conversationIndex!.header.guid)
+        XCTAssertEqual(GUID(0xF8D90074, 0x0449, 0x42EA, 0x95E3, 0x7D3592F9E6B8), msg.conversationIndex!.header.guid)
         XCTAssertEqual(0, msg.conversationIndex!.responseLevels.count)
         XCTAssertEqual("", msg.displayTo!)
         XCTAssertEqual(1599483398.0, msg.toDoOrdinalDate!.timeIntervalSince1970)
@@ -32,12 +33,12 @@ final class TaskTests: XCTestCase {
         XCTAssertEqual("hughbellars@gmail.com", msg.sentRepresentingName!)
         XCTAssertTrue(msg.alternateRecipientAllowed!)
         XCTAssertEqual("16.0", msg.currentVersionName!)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.changeKey!.namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.changeKey!.namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x98, 0x5F], msg.changeKey!.localId)
         XCTAssertEqual("", msg.subjectPrefix!)
         XCTAssertEqual(.normal, msg.importance!)
         XCTAssertEqual(0x00000000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.flags)
-        XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
+        XCTAssertEqual(GUID(0xA41F2B81, 0xA3BE, 0x1910, 0x9D6E, 0x00DD010F5402), (msg.sentRepresentingEntryId as? OneOffEntryID)!.providerUid)
         XCTAssertEqual(0x0000, (msg.sentRepresentingEntryId as? OneOffEntryID)!.version)
         XCTAssertEqual([.unicode], (msg.sentRepresentingEntryId as? OneOffEntryID)!.entryFlags)
         XCTAssertEqual("hughbellars@gmail.com", (msg.sentRepresentingEntryId as? OneOffEntryID)!.displayName)
@@ -47,7 +48,7 @@ final class TaskTests: XCTestCase {
         XCTAssertEqual([.coerceToInbox, .openForContextMenu], msg.sideEffects)
         XCTAssertEqual([.read], msg.access)
         XCTAssertEqual(0x00000000, (msg.senderEntryId as? OneOffEntryID)!.flags)
-        XCTAssertEqual(UUID(uuidString: "812B1FA4-BEA3-1019-9D6E-00DD010F5402"), (msg.senderEntryId as? OneOffEntryID)!.providerUid)
+        XCTAssertEqual(GUID(0xA41F2B81, 0xA3BE, 0x1910, 0x9D6E, 0x00DD010F5402), (msg.senderEntryId as? OneOffEntryID)!.providerUid)
         XCTAssertEqual(0x0000, (msg.senderEntryId as? OneOffEntryID)!.version)
         XCTAssertEqual([.unicode], (msg.senderEntryId as? OneOffEntryID)!.entryFlags)
         XCTAssertEqual("hughbellars@gmail.com", (msg.senderEntryId as? OneOffEntryID)!.displayName)
@@ -62,7 +63,7 @@ final class TaskTests: XCTestCase {
         XCTAssertEqual("\r\n", msg.body!)
         XCTAssertEqual("hughbellars@gmail.com", msg.taskOwner!)
         XCTAssertEqual(1, msg.predecessorChangeList!.values.count)
-        XCTAssertEqual(UUID(uuidString: "504346B0-3346-4246-AC66-333EA06D2732"), msg.predecessorChangeList!.values[0].namespaceGuid)
+        XCTAssertEqual(GUID(0x504346B0, 0x3346, 0x4246, 0xAC66, 0x333EA06D2732), msg.predecessorChangeList!.values[0].namespaceGuid)
         XCTAssertEqual([0x00, 0x00, 0x98, 0x5F], msg.predecessorChangeList!.values[0].localId)
         XCTAssertFalse(msg.taskComplete!)
         XCTAssertEqual("", msg.displayCc!)
